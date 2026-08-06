@@ -25,6 +25,7 @@ from src.sources.base import BaseSource, canonicalize_url  # noqa: E402
 from src.sources.firms import (  # noqa: E402
     ALL_SOURCES,
     A16ZSource,
+    AccelSource,
     AntlerSource,
     BatterySource,
     ContrarySource,
@@ -478,6 +479,62 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestAccel:
+    @pytest.fixture
+    def posts(self):
+        return load("accel_index.html", AccelSource(),
+                    "https://www.accel.com/news/portfolio")
+
+    def test_finds_posts(self, posts):
+        assert len(posts) == 4
+
+    def test_category_filter_tabs_excluded(self, posts):
+        """/news/insights and /news/podcasts match /news/<slug> exactly.
+
+        Before the exclude they arrived as posts titled "Insights" and
+        "Podcasts".
+        """
+        urls = {p.url for p in posts}
+        titles = {p.title for p in posts}
+        for tab in ("insights", "podcasts", "portfolio"):
+            assert f"https://www.accel.com/news/{tab}" not in urls
+        assert "Insights" not in titles
+        assert "Podcasts" not in titles
+
+    def test_category_prefix_stripped_from_title(self, posts):
+        for post in posts:
+            assert not post.title.startswith(("Portfolio News", "Insights"))
+        titles = {p.title for p in posts}
+        assert "Our Investment in Paper: The AI-Native Design Space" in titles
+
+    def test_trailing_date_stripped_from_title(self, posts):
+        """No full date may survive in a title.
+
+        Deliberately not asserting "2026" is absent: one of these posts is
+        genuinely called "The State of AI Inference 2026", and a bare-year
+        check would force the parser to mangle it.
+        """
+        from src.sources.firms import PLAINTEXT_DATE
+        for post in posts:
+            assert not PLAINTEXT_DATE.search(post.title), post.title
+        assert "The State of AI Inference 2026" in {p.title for p in posts}
+
+    def test_date_parsed_from_card(self, posts):
+        """Accel is one of the few of the fourteen to publish a date here."""
+        paper = next(p for p in posts if "paper" in p.url)
+        assert paper.published_date == datetime(2026, 7, 23)
+        assert all(p.published_date is not None for p in posts)
+
+    def test_investment_posts_flagged(self, posts):
+        paper = next(p for p in posts if "/news/our-investment-in-paper" in p.url)
+        assert paper.likely_investment is True
+
+    def test_acquisition_left_to_the_classifier(self, posts):
+        """Acquisitions sit under the same "Portfolio News" category."""
+        cognition = next(p for p in posts if "cognition-acquires" in p.url)
+        assert cognition.likely_investment is None
 
 
 class TestIndexVentures:

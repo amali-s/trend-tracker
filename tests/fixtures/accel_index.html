@@ -1,0 +1,59 @@
+<!--
+  Trimmed skeleton of https://www.accel.com/news/portfolio as served
+  2026-08-06. Structure only; excerpt text stubbed.
+
+  Two structural details are reproduced because the parser depends on them:
+  the category filter tabs are themselves /news/<word> URLs (so they match the
+  post pattern and must be excluded by name), and each card anchor contains
+  "<category> <title> <date>" as flat text with no heading element.
+-->
+<html>
+<head><title>News | Accel</title></head>
+<body>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+</nav>
+
+<!-- Category filter tabs. These match /news/<slug> and are not posts. -->
+<div class="filters">
+  <a href="/news/portfolio">All</a>
+  <a href="/news/portfolio">Portfolio News</a>
+  <a href="/news/insights">Insights</a>
+  <a href="/news/podcasts">Podcasts</a>
+</div>
+
+<main>
+
+  <!-- A round -->
+  <a href="/news/our-investment-in-paper-the-ai-native-design-space">
+    <span>Portfolio News</span>
+    <span>Our Investment in Paper: The AI-Native Design Space</span>
+    <span>July 23, 2026</span>
+  </a>
+
+  <!-- A round, title carries a typographic apostrophe -->
+  <a href="/news/tackling-industrial-ai-s-last-mile-problem-our-investment-in-arrakis">
+    <span>Portfolio News</span>
+    <span>Tackling Industrial AI&#8217;s Last Mile Problem: Our Investment in Arrakis</span>
+    <span>July 22, 2026</span>
+  </a>
+
+  <!-- An acquisition filed under the same category. Classifier must reject. -->
+  <a href="/news/cognition-acquires-tierzero-building-the-autonomous-engineering-agent">
+    <span>Portfolio News</span>
+    <span>Cognition Acquires TierZero: Building the Autonomous Engineering Agent</span>
+    <span>July 20, 2026</span>
+  </a>
+
+  <!-- An essay under a different category -->
+  <a href="/news/the-state-of-ai-inference-2026">
+    <span>Insights</span>
+    <span>The State of AI Inference 2026</span>
+    <span>July 15, 2026</span>
+  </a>
+
+</main>
+</body>
+</html>

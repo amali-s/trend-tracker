@@ -16,8 +16,9 @@ pages actually served on 2026-08-05:
     Lightspeed         VERIFIED  WordPress REST; /feed/ is a decoy (2026-08-06)
     Designer Fund      VERIFIED  static HTML (Framer); no feed exists (2026-08-06)
     Index Ventures     VERIFIED  static HTML; title from slug, not the card (2026-08-06)
+    Accel              VERIFIED  static HTML; filter tabs look like posts (2026-08-06)
 
-The other three are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other two are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -371,19 +372,55 @@ class KleinerPerkinsSource(RSSSource):
 
 
 class AccelSource(BaseSource):
-    """Accel — portfolio news. UNVERIFIED.
+    """Accel — portfolio news. Verified 2026-08-06.
 
-    vc-job-agent found jobs.accel.com on the older Getro/Next.js platform that
-    still served __NEXT_DATA__. If www.accel.com is also Next.js, check for a
-    __NEXT_DATA__ blob — parsing that JSON is far more stable than the DOM.
+    Posts are at /news/<slug>; the /noteworthies/ half of the inferred pattern
+    matched nothing and is dropped. No __NEXT_DATA__ blob on www.accel.com --
+    that was the jobs subdomain.
+
+    Two things the raw pattern got wrong. The category filter tabs are
+    themselves /news/<word> URLs -- /news/insights, /news/podcasts,
+    /news/portfolio -- so they matched and arrived as posts titled "Insights"
+    and "Podcasts". They are excluded by name rather than by length, because a
+    real slug can be short too.
+
+    Each card's anchor text is "<category> <title> <date>" with no heading
+    element, e.g. "Portfolio News Cyera + Oasis: Securing the AI-Native
+    Enterprise July 28, 2026". Both ends are stripped, which also gives a
+    date -- Accel is one of the few of the fourteen to publish one on the
+    index.
+
+    Note for the classifier: this index carries acquisitions alongside rounds
+    ("Cognition Acquires TierZero"), and the category is "Portfolio News" for
+    both.
     """
 
     name = "Accel"
     base_url = "https://www.accel.com"
     index_urls = ["https://www.accel.com/news/portfolio"]
-    post_url_pattern = r"accel\.com/noteworthies/[a-z0-9][a-z0-9-]+$|accel\.com/news/[a-z0-9][a-z0-9-]{3,}$"
-    exclude_url_patterns = [r"/news(/portfolio)?$"]
+    post_url_pattern = r"accel\.com/news/[a-z0-9][a-z0-9-]{3,}$"
+    exclude_url_patterns = [
+        r"/news(/portfolio)?$",
+        r"/news/(insights|podcasts|portfolio|all|news)$",
+    ]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+
+    # Card category labels, printed before the title in the same anchor.
+    CATEGORY_PREFIX = re.compile(
+        r"^(Portfolio News|Insights|Podcasts|News|All)\s+", re.IGNORECASE
+    )
+
+    def extract_title(self, anchor) -> str:
+        text = super().extract_title(anchor)
+        text = self.CATEGORY_PREFIX.sub("", text)
+        text = PLAINTEXT_DATE.sub("", text)
+        return self.clean_text(text)
+
+    def extract_date_near(self, anchor):
+        match = PLAINTEXT_DATE.search(anchor.get_text(" ", strip=True))
+        if match:
+            return self.parse_date(match.group(0))
+        return super().extract_date_near(anchor)
 
 
 class BatterySource(WordPressSource):
@@ -626,10 +663,10 @@ VERIFIED_SOURCES = [
     LSVPSource,
     DesignerFundSource,
     IndexVenturesSource,
+    AccelSource,
 ]
 
 UNVERIFIED_SOURCES = [
-    AccelSource,
     NEASource,
     BessemerSource,
 ]
