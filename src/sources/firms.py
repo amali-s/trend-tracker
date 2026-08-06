@@ -12,8 +12,9 @@ pages actually served on 2026-08-05:
     Sequoia            VERIFIED  RSS feed; HTML index is client-rendered (2026-08-06)
     Antler             VERIFIED  static HTML; posts at /press-releases/ (2026-08-06)
     Battery Ventures   VERIFIED  WordPress REST; /news/ is outbound-only (2026-08-06)
+    Kleiner Perkins    VERIFIED  RSS feed, chosen over a working index for dates (2026-08-06)
 
-The other seven are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other six are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -297,18 +298,33 @@ class IndexVenturesSource(BaseSource):
     investment_title_patterns = COMMON_INVESTMENT_TITLES
 
 
-class KleinerPerkinsSource(BaseSource):
-    """Kleiner Perkins — announcements. UNVERIFIED.
+class KleinerPerkinsSource(RSSSource):
+    """Kleiner Perkins — perspectives, via RSS. Verified 2026-08-06.
 
-    The index URL is already scoped to the announcements category, which is
-    the ideal case: a category that is *by definition* investment news. If the
-    probe confirms it, set investment_url_pattern to the post path so the
-    classifier can be skipped, the way a16z's /announcement/ path is handled.
+    The inferred /perspectives/<slug> path was right and the HTML index does
+    work, returning 6 posts. It is used anyway only as a fallback, because the
+    HTML index carries no dates at all while the feed carries a real pubDate
+    on every entry. Dates are worth more here than the extra reach.
+
+    The trade-off taken knowingly: the feed is site-wide, so it loses the
+    /category/announcements scoping the index URL provided. More essays reach
+    the classifier as a result. That is the cheaper mistake -- the scoped index
+    gave no dates, and an announcement-only feed does not exist.
+
+    Note for dedup: this feed republishes the same post under two slugs.
+    "K2 Space: Building Bigger" appears at both /k2-space-building-bigger/ and
+    /k2-space-building-bigger-2/, tagged 'Perspectives' on one and
+    'Media','Portfolio Perspectives' on the other, and "CuspAI: A Search
+    Engine..." does the same with only a capitalisation difference in the
+    title. Layer 1 sees two distinct URLs and lets both through; this is
+    exactly the case dedup layer 2 (content hash of title + body) exists for,
+    and it is worth confirming against this source once bodies are fetched.
     """
 
     name = "Kleiner Perkins"
     base_url = "https://www.kleinerperkins.com"
     index_urls = ["https://www.kleinerperkins.com/perspectives/category/announcements"]
+    feed_urls = ["https://www.kleinerperkins.com/feed/"]
     post_url_pattern = r"kleinerperkins\.com/perspectives/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/perspectives(/category.*)?$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
@@ -530,11 +546,11 @@ VERIFIED_SOURCES = [
     SequoiaSource,
     AntlerSource,
     BatterySource,
+    KleinerPerkinsSource,
 ]
 
 UNVERIFIED_SOURCES = [
     IndexVenturesSource,
-    KleinerPerkinsSource,
     AccelSource,
     NEASource,
     LSVPSource,

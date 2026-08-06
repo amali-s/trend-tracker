@@ -30,6 +30,7 @@ from src.sources.firms import (  # noqa: E402
     ContrarySource,
     GeneralCatalystSource,
     GreylockSource,
+    KleinerPerkinsSource,
     SequoiaSource,
 )
 from src.state import collapse_syndicates  # noqa: E402
@@ -474,6 +475,45 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestKleinerPerkinsFeed:
+    """Kleiner's HTML index works but carries no dates; the feed does."""
+
+    def _posts(self):
+        return load_feed("kleiner_perkins_feed.xml", KleinerPerkinsSource())
+
+    def test_discovers_posts_from_feed(self):
+        assert len(self._posts()) == 4  # 5 entries, one is a category archive
+
+    def test_category_archive_excluded(self):
+        assert not any("/category/" in p.url for p in self._posts())
+
+    def test_every_post_has_a_date(self):
+        """The reason to prefer the feed over the working HTML index."""
+        posts = self._posts()
+        assert all(p.published_date is not None for p in posts)
+        newest = max(posts, key=lambda p: p.published_date)
+        assert newest.published_date.date() == datetime(2026, 7, 30).date()
+
+    def test_reslugged_duplicate_survives_layer_one(self):
+        """Two URLs, one story — layer 1 cannot catch this, by construction.
+
+        Kleiner republishes posts under a `-2` slug with different tags. Both
+        entries are distinct URLs so URL-keyed dedup passes them through, which
+        is precisely why layer 2 hashes title+body. This asserts the gap is
+        real rather than assuming layer 1 covers it.
+        """
+        k2 = [p for p in self._posts() if "k2-space" in p.url]
+        assert len(k2) == 2
+        assert len({p.url for p in k2}) == 2
+        assert len({p.title for p in k2}) == 1
+
+    def test_welcoming_post_flagged_for_the_classifier(self):
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug[
+            "welcoming-aatish-nayak-to-kleiner-perkins"
+        ].likely_investment is True
 
 
 class TestBatteryWordPress:

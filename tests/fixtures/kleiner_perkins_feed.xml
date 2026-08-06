@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Trimmed skeleton of https://www.kleinerperkins.com/feed/ as served
+  2026-08-06. Structure only; descriptions stubbed.
+
+  The two K2 Space entries are not a mistake in this fixture -- the live feed
+  really does republish one post under two slugs with different tags. That is
+  the re-slugged-duplicate case dedup layer 2 exists to catch, and layer 1
+  cannot, so it is preserved here deliberately.
+-->
+<rss version="2.0">
+<channel>
+  <title>Kleiner Perkins</title>
+  <link>https://www.kleinerperkins.com</link>
+  <description>Perspectives</description>
+
+  <item>
+    <title>K2 Space: Building Bigger</title>
+    <link>https://www.kleinerperkins.com/perspectives/k2-space-building-bigger-2/</link>
+    <pubDate>Thu, 30 Jul 2026 10:00:00 +0000</pubDate>
+    <category><![CDATA[Perspectives]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <item>
+    <title>K2 Space: Building Bigger</title>
+    <link>https://www.kleinerperkins.com/perspectives/k2-space-building-bigger/</link>
+    <pubDate>Tue, 28 Jul 2026 10:00:00 +0000</pubDate>
+    <category><![CDATA[Media]]></category>
+    <category><![CDATA[Portfolio Perspectives]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <item>
+    <title>TerraFirma: Built for Earth, Bound for Mars</title>
+    <link>https://www.kleinerperkins.com/perspectives/terrafirma-built-for-earth-bound-for-mars/</link>
+    <pubDate>Wed, 15 Jul 2026 12:00:00 +0000</pubDate>
+    <category><![CDATA[Perspectives]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!-- Firm news, not a round -->
+  <item>
+    <title>Welcoming Aatish Nayak to Kleiner Perkins</title>
+    <link>https://www.kleinerperkins.com/perspectives/welcoming-aatish-nayak-to-kleiner-perkins/</link>
+    <pubDate>Mon, 06 Jul 2026 09:00:00 +0000</pubDate>
+    <category><![CDATA[Perspectives]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!-- Category archive: must not survive is_post_url -->
+  <item>
+    <title>Announcements</title>
+    <link>https://www.kleinerperkins.com/perspectives/category/announcements/</link>
+    <pubDate>Mon, 06 Jul 2026 08:00:00 +0000</pubDate>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+</channel>
+</rss>
