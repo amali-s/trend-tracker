@@ -28,6 +28,7 @@ from src.sources.firms import (  # noqa: E402
     AntlerSource,
     BatterySource,
     ContrarySource,
+    DesignerFundSource,
     GeneralCatalystSource,
     GreylockSource,
     KleinerPerkinsSource,
@@ -476,6 +477,64 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestDesignerFund:
+    @pytest.fixture
+    def posts(self):
+        return load("designer_fund_index.html", DesignerFundSource(),
+                    "https://designerfund.com/blog")
+
+    def test_finds_posts(self, posts):
+        assert len(posts) == 4
+        assert all("/blog/" in p.url for p in posts)
+
+    def test_index_page_itself_excluded(self, posts):
+        assert "https://designerfund.com/blog" not in {p.url for p in posts}
+
+    def test_plaintext_date_parsed(self, posts):
+        """Framer renders the date beside a "New Feature" badge, not in <time>."""
+        adora = next(p for p in posts if "adora" in p.url)
+        assert adora.published_date == datetime(2026, 4, 2)
+        assert all(p.published_date is not None for p in posts)
+
+    def test_duplicated_ssr_heading_does_not_duplicate_the_post(self, posts):
+        """Framer emits the <h1> twice per card; one post must come out."""
+        assert len([p for p in posts if "adora" in p.url]) == 1
+
+    def test_title_from_heading_not_badge_or_byline(self, posts):
+        titles = {p.title for p in posts}
+        assert "Announcing Adora: Product visibility at velocity" in titles
+        for title in titles:
+            assert not title.startswith(("New Feature", "Designer Fund"))
+            assert "May 20, 2026" not in title
+
+    def test_bare_announcing_is_not_treated_as_a_round(self, posts):
+        """"Announcing Adora" goes to the classifier, and should.
+
+        COMMON_INVESTMENT_TITLES requires "announcing our investment", not a
+        bare "announcing". Widening it would be wrong on this very blog:
+        "Announcing the Enrique Allen Memorial Scholarship" is a real post
+        here, and Contrary publishes "Announcing 2025 Tech Trends Report".
+        None is the honest answer — only the body can settle it.
+        """
+        adora = next(p for p in posts if "adora" in p.url)
+        assert adora.likely_investment is None
+
+    def test_acquisition_left_to_the_classifier(self, posts):
+        """"Weavy Joining Figma" is an exit, not a round."""
+        weavy = next(p for p in posts if "weavy" in p.url)
+        assert weavy.likely_investment is None
+
+    def test_welcome_post_not_caught_by_the_welcoming_pattern(self, posts):
+        """"Welcome Jackie ..." does not match ^welcoming\\b — one letter off.
+
+        Harmless here: it is a hire announcement, so None is the right answer
+        either way. Pinned because the near-miss is easy to "fix" into
+        ^welcom, which would then flag genuine hire posts as investments.
+        """
+        jackie = next(p for p in posts if "jackie-berardo" in p.url)
+        assert jackie.likely_investment is None
 
 
 class TestLightspeedWordPress:

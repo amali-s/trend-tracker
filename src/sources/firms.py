@@ -14,8 +14,9 @@ pages actually served on 2026-08-05:
     Battery Ventures   VERIFIED  WordPress REST; /news/ is outbound-only (2026-08-06)
     Kleiner Perkins    VERIFIED  RSS feed, chosen over a working index for dates (2026-08-06)
     Lightspeed         VERIFIED  WordPress REST; /feed/ is a decoy (2026-08-06)
+    Designer Fund      VERIFIED  static HTML (Framer); no feed exists (2026-08-06)
 
-The other five are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other four are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -34,6 +35,14 @@ from bs4 import BeautifulSoup
 from ..models import BlogPost
 from .base import BaseSource
 from .rss_base import RSSSource, WordPressSource
+
+# "October 8, 2025" as it appears in card markup. Several of these sites render
+# the date as plain text with no <time> element, so the generic date lookup in
+# BaseSource finds nothing and each has to reach for this.
+PLAINTEXT_DATE = re.compile(
+    r"\b(January|February|March|April|May|June|July|August|September|"
+    r"October|November|December)\s+\d{1,2},\s+\d{4}\b"
+)
 
 # Titles that reliably mark a funding announcement across these blogs.
 # Used only to set likely_investment=True and skip an LLM call — never to
@@ -160,10 +169,7 @@ class ContrarySource(BaseSource):
 
     # Contrary renders the date as plain text inside the card rather than in a
     # <time> element, so the generic <time> lookup finds nothing.
-    DATE_TEXT = re.compile(
-        r"\b(January|February|March|April|May|June|July|August|September|"
-        r"October|November|December)\s+\d{1,2},\s+\d{4}\b"
-    )
+    DATE_TEXT = PLAINTEXT_DATE
 
     def extract_date_near(self, anchor):
         text = anchor.get_text(" ", strip=True)
@@ -443,10 +449,7 @@ class AntlerSource(BaseSource):
     investment_title_patterns = COMMON_INVESTMENT_TITLES
 
     # Antler renders the date as plain text in the card, not in a <time>.
-    DATE_TEXT = re.compile(
-        r"\b(January|February|March|April|May|June|July|August|September|"
-        r"October|November|December)\s+\d{1,2},\s+\d{4}\b"
-    )
+    DATE_TEXT = PLAINTEXT_DATE
 
     def _card(self, anchor):
         """Walk up to the card container that holds the title and date.
@@ -541,13 +544,25 @@ class BessemerSource(BaseSource):
 
 
 class DesignerFundSource(BaseSource):
-    """Designer Fund — blog. UNVERIFIED.
+    """Designer Fund — blog. Verified 2026-08-06.
 
-    The only firm here not present in vc-job-agent. Designer Fund posts far
-    less frequently than the others and writes more about design practice than
-    about rounds, so expect few investments and many classifier rejections.
-    Probe for a WordPress or Ghost feed first — a small blog is the most likely
-    of the fourteen to have one.
+    The healthiest of the inferred sources: the pattern was already right and
+    titles came out clean, because this is a Framer site that puts a real <h1>
+    inside each card anchor. 31 posts.
+
+    No feed, despite being the small blog most likely of the fourteen to have
+    one — /feed/, /rss/, /feed.xml and the WordPress REST path were all
+    probed and none exists.
+
+    The only fix needed was the date. Framer renders it as plain text next to
+    a "New Feature" badge rather than in a <time> element, so the generic
+    lookup found nothing and every post came back undated. Note the <h1> is
+    emitted twice per card (Framer's ssr-variant duplication); extract_title
+    takes the first, so the duplication is harmless.
+
+    The only firm here not present in vc-job-agent. It posts infrequently and
+    writes about design practice far more than about rounds, so expect few
+    investments and many classifier rejections.
     """
 
     name = "Designer Fund"
@@ -556,6 +571,12 @@ class DesignerFundSource(BaseSource):
     post_url_pattern = r"designerfund\.com/(blog|stories)/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/blog$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+
+    def extract_date_near(self, anchor):
+        match = PLAINTEXT_DATE.search(anchor.get_text(" ", strip=True))
+        if match:
+            return self.parse_date(match.group(0))
+        return super().extract_date_near(anchor)
 
 
 # ===========================================================================
@@ -570,6 +591,7 @@ VERIFIED_SOURCES = [
     BatterySource,
     KleinerPerkinsSource,
     LSVPSource,
+    DesignerFundSource,
 ]
 
 UNVERIFIED_SOURCES = [
@@ -577,7 +599,6 @@ UNVERIFIED_SOURCES = [
     AccelSource,
     NEASource,
     BessemerSource,
-    DesignerFundSource,
 ]
 
 ALL_SOURCES = VERIFIED_SOURCES + UNVERIFIED_SOURCES
