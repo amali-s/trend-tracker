@@ -31,6 +31,7 @@ from src.sources.firms import (  # noqa: E402
     DesignerFundSource,
     GeneralCatalystSource,
     GreylockSource,
+    IndexVenturesSource,
     KleinerPerkinsSource,
     LSVPSource,
     SequoiaSource,
@@ -477,6 +478,55 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestIndexVentures:
+    @pytest.fixture
+    def posts(self):
+        return load("index_ventures_index.html", IndexVenturesSource(),
+                    "https://www.indexventures.com/perspectives/")
+
+    def test_finds_posts(self, posts):
+        assert len(posts) == 3
+        assert all("/perspectives/" in p.url for p in posts)
+
+    def test_index_page_itself_excluded(self, posts):
+        assert not any(p.url.endswith("/perspectives") for p in posts)
+
+    def test_cta_text_never_becomes_a_title(self, posts):
+        """Every anchor here reads "Read more Opens in a new window."."""
+        for post in posts:
+            assert "Read more" not in post.title
+            assert "Opens in a new window" not in post.title
+
+    def test_title_comes_from_slug_not_the_founder_card(self, posts):
+        """The card describes a person; only the slug describes the post.
+
+        This is the one source where the Antler-style card walk is wrong —
+        it would title this post "Joon Sung Park. Multidisciplinary artist.
+        Agent architect. Simulator of worlds."
+        """
+        similes = next(p for p in posts if "similes" in p.url)
+        assert similes.title == (
+            "Simulating Society At Scale Our Investment In Similes 200M Series B"
+        )
+        assert "Joon Sung Park" not in similes.title
+        assert not any("Multidisciplinary artist" in p.title for p in posts)
+
+    def test_slug_title_still_trips_the_investment_heuristics(self, posts):
+        """Punctuation is lost, so this has to survive on "our investment in"."""
+        similes = next(p for p in posts if "similes" in p.url)
+        assert similes.likely_investment is True
+
+    def test_slug_titles_lose_punctuation_and_need_the_detail_page(self, posts):
+        """Documented limitation, not an accident: "$200M" arrives as "200M".
+
+        Good enough for the heuristics above, not good enough for the email.
+        fetch_post_detail must overwrite these with the page <h1>.
+        """
+        similes = next(p for p in posts if "similes" in p.url)
+        assert "$200M" not in similes.title
+        assert "200M" in similes.title
 
 
 class TestDesignerFund:

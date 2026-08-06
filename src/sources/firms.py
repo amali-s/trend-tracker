@@ -15,8 +15,9 @@ pages actually served on 2026-08-05:
     Kleiner Perkins    VERIFIED  RSS feed, chosen over a working index for dates (2026-08-06)
     Lightspeed         VERIFIED  WordPress REST; /feed/ is a decoy (2026-08-06)
     Designer Fund      VERIFIED  static HTML (Framer); no feed exists (2026-08-06)
+    Index Ventures     VERIFIED  static HTML; title from slug, not the card (2026-08-06)
 
-The other four are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other three are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -29,6 +30,7 @@ from __future__ import annotations
 
 import re
 from typing import Iterable, Optional
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
@@ -286,15 +288,33 @@ class SequoiaSource(RSSSource):
 
 
 class IndexVenturesSource(BaseSource):
-    """Index Ventures — perspectives. UNVERIFIED.
+    """Index Ventures — perspectives. Verified 2026-08-06.
 
-    vc-job-agent's SCRAPER_DIAGNOSIS.md found indexventures.com to be a
-    client-rendered Vue app on the jobs side of the site. If /perspectives/ is
-    built the same way, this needs a Playwright fallback — check the probe's
-    static-HTML result before writing off the simple path.
+    Not a client-rendered Vue app after all — vc-job-agent found that on the
+    *jobs* side of the domain, but /perspectives/ ships 62 post links in the
+    initial HTML and needs no Playwright.
 
-    Also note this blog is mostly long-form essays, so expect the classifier to
-    reject most of what it returns.
+    The title has to come from the slug, which is unusual enough to explain.
+    Every post anchor is a bare "Read more Opens in a new window." with no
+    heading inside it, and the surrounding card describes the *founder* rather
+    than the post: the card for "Simulating Society at Scale: Our Investment
+    in Similes' $200M Series B" reads "Joon Sung Park. Multidisciplinary
+    artist. Agent architect. Simulator of worlds."
+
+    So the usual card-walk that fixed Antler is actively wrong here -- it
+    would title the post with a person's name and tagline. The slug is the
+    only thing on the page that describes the post, and it is unusually rich:
+    simulating-society-at-scale-our-investment-in-similes-200m-series-b.
+
+    Consequence to keep in mind: slug-derived titles lose punctuation and
+    case, so "$200M" arrives as "200M". That is good enough for the
+    likely_investment heuristics but not for display, and the detail page's
+    <h1> should replace it once fetch_post_detail runs. Do not use these
+    titles in the email without that step.
+
+    No dates anywhere on the index and no feed, so dates come from the detail
+    page or not at all. Mostly long-form essays and founder profiles, so
+    expect heavy classifier rejection.
     """
 
     name = "Index Ventures"
@@ -303,6 +323,19 @@ class IndexVenturesSource(BaseSource):
     post_url_pattern = r"indexventures\.com/perspectives/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/perspectives$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+
+    # "Read more", "Opens in a new window." and similar chrome — never a title.
+    CTA_TEXT = re.compile(
+        r"^(read more|read|learn more|opens in a new window\.?|\s|·|→)+$",
+        re.IGNORECASE,
+    )
+
+    def extract_title(self, anchor) -> str:
+        text = self.clean_text(anchor.get_text(" ", strip=True))
+        if text and not self.CTA_TEXT.match(text):
+            return text
+        slug = urlparse(anchor.get("href", "")).path.rstrip("/").split("/")[-1]
+        return slug.replace("-", " ").title() if slug else ""
 
 
 class KleinerPerkinsSource(RSSSource):
@@ -592,10 +625,10 @@ VERIFIED_SOURCES = [
     KleinerPerkinsSource,
     LSVPSource,
     DesignerFundSource,
+    IndexVenturesSource,
 ]
 
 UNVERIFIED_SOURCES = [
-    IndexVenturesSource,
     AccelSource,
     NEASource,
     BessemerSource,
