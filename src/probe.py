@@ -94,7 +94,11 @@ def probe_source(source: BaseSource, save_fixtures: bool = False) -> dict:
         "dated": 0,
         "sample_titles": [],
         "scrape_error": None,
+        "reads_feed": False,
     }
+
+    from .sources.rss_base import RSSSource, WordPressSource
+    result["reads_feed"] = isinstance(source, (RSSSource, WordPressSource))
 
     result["feeds"] = probe_feeds(source)
 
@@ -182,7 +186,9 @@ def tier_for(result: dict) -> str:
     if result["error"]:
         return "ERROR"
     if result.get("scraped"):
-        return "A (static HTML)" if not result["feeds"] else "B (feed-backed)"
+        # Feed-backed means the *source* reads a feed, not that the host
+        # happens to serve one. NEA reads HTML while nea.com/feed/ exists.
+        return "B (feed-backed)" if result.get("reads_feed") else "A (static HTML)"
     if result.get("match_count"):
         return "A (pattern matches, but scrape() returned nothing)"
     if result["feeds"]:
