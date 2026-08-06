@@ -1,0 +1,60 @@
+<!--
+  Trimmed skeleton of https://www.bvp.com/news as served 2026-08-06.
+  Structure only; card descriptions stubbed.
+
+  Two details are reproduced because the parser depends on them:
+
+  1. The site nav links "Funds > Flagship" directly at a real post URL. It
+     appears BEFORE the card in document order, so parse_index sees it first
+     and the post arrived titled "Flagship". The same URL appears again below
+     as a proper card — that ordering is the whole point of the test.
+  2. Dates are stamped "7.29.26", not "July 29, 2026" like every other site
+     in this project.
+-->
+<html>
+<head><title>News | Bessemer Venture Partners</title></head>
+<body>
+
+<nav>
+  <a href="/about">About</a>
+  <a href="/news">News</a>
+  <a href="/atlas">Atlas</a>
+  <ul>
+    <li><span>Funds</span></li>
+    <!-- Nav chrome pointed at a post URL, with no heading and no date -->
+    <li><a href="/news/expanding-opportunities-with-3-85-billion-for-early-stage-investments"><span>Flagship</span></a></li>
+    <li><a href="/news/bvp-forge-fund-two"><span>BVP Forge</span></a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <a href="/news/onyx-security-defining-cybersecurity-in-the-agentic-era">
+    <span>7.29.26</span>
+    <h2>Onyx Security: defining cybersecurity in the agentic era</h2>
+    <p>Stubbed description.</p>
+  </a>
+
+  <a href="/news/act-proactive-cloud-security">
+    <span>7.28.26</span>
+    <h2>Act: Proactive cloud security</h2>
+    <p>Stubbed description.</p>
+  </a>
+
+  <a href="/news/neo-security-securing-ai-agents-at-the-endpoint">
+    <span>7.20.26</span>
+    <h2>Neo: securing AI agents at the endpoint</h2>
+    <p>Stubbed description.</p>
+  </a>
+
+  <!-- The same URL the nav claimed, now as a real card. Bessemer's own fund
+       news, which reads like a portfolio round — the classifier must reject. -->
+  <a href="/news/expanding-opportunities-with-3-85-billion-for-early-stage-investments">
+    <span>7.02.26</span>
+    <h2>Expanding opportunities with $3.85 billion for early-stage investments</h2>
+    <p>Stubbed description.</p>
+  </a>
+
+</main>
+</body>
+</html>

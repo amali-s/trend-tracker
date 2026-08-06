@@ -2,8 +2,7 @@
 
 VERIFICATION STATUS — read this before trusting any class below.
 
-I probed four of these sites directly and the patterns here reflect what the
-pages actually served on 2026-08-05:
+Patterns here reflect what the pages actually served when probed:
 
     Greylock           VERIFIED  static HTML (Next.js + Sanity), /page/N/ pagination
     a16z               VERIFIED  static HTML (WordPress), investments at /announcement/
@@ -18,19 +17,22 @@ pages actually served on 2026-08-05:
     Index Ventures     VERIFIED  static HTML; title from slug, not the card (2026-08-06)
     Accel              VERIFIED  static HTML; filter tabs look like posts (2026-08-06)
     NEA                VERIFIED  static HTML; first heading is often a label (2026-08-06)
+    Bessemer           VERIFIED  static HTML; nav steals a post URL (2026-08-06)
 
-The last one, Bessemer, is UNVERIFIED. Their `post_url_pattern` values are inferred from
-the index URL you supplied, which is a reasonable guess for how a CMS lays out
-post paths but is still a guess. Run `python -m src.probe` to check them against
-the live sites, then correct the patterns and move each entry out of the
-unverified block.
+All fourteen are now verified against the live sites and covered by fixture
+tests. UNVERIFIED_SOURCES is empty and kept only so a newly added source has
+somewhere to sit until it is probed.
 
-Do not assume an unverified source works because it imports cleanly.
+`python -m src.probe` remains the check that matters: these are marketing
+sites that redesign without notice, and a fixture test proves the parser still
+handles the page as it was on 2026-08-06, not as it is today. Re-run the probe
+whenever a source starts returning zero.
 """
 
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from typing import Iterable, Optional
 from urllib.parse import urlparse
 
@@ -635,10 +637,28 @@ class LSVPSource(WordPressSource):
 
 
 class BessemerSource(BaseSource):
-    """Bessemer — news. UNVERIFIED.
+    """Bessemer — news. Verified 2026-08-06.
 
-    bvp.com publishes "atlases" and memos alongside announcements, so the
-    classifier matters here.
+    Static HTML at /news/<slug>, and the richest of the fourteen: the index
+    lists the whole archive in one page, ~207 posts. That is heavy for a
+    weekly run but harmless once seeded, since dedup layer 1 drops everything
+    already seen. Expect a large first `--seed`.
+
+    Titles come from a real <h2> inside each card, so they were already clean.
+    One anchor was not: the site nav links "Funds > Flagship" straight at
+    /news/expanding-opportunities-with-3-85-billion-for-early-stage-investments,
+    and because parse_index takes the first anchor it finds for a URL, that
+    post arrived titled "Flagship". extract_title returns "" for a headingless
+    nav-shaped anchor, which makes parse_index skip it *without* marking the
+    URL as seen -- so the real card later in the page still claims it.
+
+    Dates are published, but in an unusual "7.29.26" form rather than the
+    "July 29, 2026" every other site here uses, which is why the shared
+    PLAINTEXT_DATE finds nothing.
+
+    bvp.com publishes "atlases" and long memos alongside announcements, and
+    its own fund news ("$3.85 billion for early-stage investments") reads
+    exactly like a portfolio round, so the classifier matters here.
     """
 
     name = "Bessemer"
@@ -647,6 +667,34 @@ class BessemerSource(BaseSource):
     post_url_pattern = r"bvp\.com/(news|atlas)/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/news$", r"/atlas$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+
+    # Bessemer stamps cards "7.29.26" — month.day.two-digit-year.
+    NUMERIC_DATE = re.compile(r"\b(\d{1,2})\.(\d{1,2})\.(\d{2})\b")
+
+    def extract_title(self, anchor) -> str:
+        heading = anchor.find(["h1", "h2", "h3", "h4", "h5", "h6"])
+        if heading:
+            text = self.clean_text(heading.get_text(" ", strip=True))
+            if len(text) > 3:
+                return text
+
+        # No heading: this is nav chrome pointed at a post URL, not a card.
+        # Returning "" makes parse_index skip it without recording the URL,
+        # leaving the real card free to claim it further down the page.
+        text = self.clean_text(anchor.get_text(" ", strip=True))
+        if len(text) < 25 and not self.NUMERIC_DATE.search(text):
+            return ""
+        return text
+
+    def extract_date_near(self, anchor):
+        match = self.NUMERIC_DATE.search(anchor.get_text(" ", strip=True))
+        if match:
+            month, day, year = (int(g) for g in match.groups())
+            try:
+                return datetime(2000 + year, month, day)
+            except ValueError:
+                return None
+        return super().extract_date_near(anchor)
 
 
 class DesignerFundSource(BaseSource):
@@ -701,11 +749,10 @@ VERIFIED_SOURCES = [
     IndexVenturesSource,
     AccelSource,
     NEASource,
-]
-
-UNVERIFIED_SOURCES = [
     BessemerSource,
 ]
+
+UNVERIFIED_SOURCES: list = []
 
 ALL_SOURCES = VERIFIED_SOURCES + UNVERIFIED_SOURCES
 

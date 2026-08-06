@@ -28,6 +28,7 @@ from src.sources.firms import (  # noqa: E402
     AccelSource,
     AntlerSource,
     BatterySource,
+    BessemerSource,
     ContrarySource,
     DesignerFundSource,
     GeneralCatalystSource,
@@ -480,6 +481,66 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestBessemer:
+    @pytest.fixture
+    def posts(self):
+        return load("bessemer_index.html", BessemerSource(),
+                    "https://www.bvp.com/news")
+
+    def test_finds_posts(self, posts):
+        assert len(posts) == 4
+
+    def test_nav_link_does_not_steal_the_post(self, posts):
+        """The nav links "Flagship" at a real post URL, before its card.
+
+        parse_index takes the first anchor per URL, so this post arrived
+        titled "Flagship". extract_title returns "" for a headingless nav
+        anchor, which skips it *without* marking the URL seen, letting the
+        real card below claim it.
+        """
+        titles = {p.title for p in posts}
+        assert "Flagship" not in titles
+        assert "BVP Forge" not in titles
+        flagship = next(p for p in posts if "expanding-opportunities" in p.url)
+        assert flagship.title == (
+            "Expanding opportunities with $3.85 billion for early-stage investments"
+        )
+
+    def test_nav_only_url_is_dropped_entirely(self, posts):
+        """/news/bvp-forge-fund-two is nav-only — no card follows it."""
+        assert not any("bvp-forge-fund-two" in p.url for p in posts)
+
+    def test_numeric_date_format_parsed(self, posts):
+        """Bessemer stamps "7.29.26", not "July 29, 2026"."""
+        onyx = next(p for p in posts if "onyx" in p.url)
+        assert onyx.published_date == datetime(2026, 7, 29)
+        assert all(p.published_date is not None for p in posts)
+
+    def test_index_and_atlas_landing_pages_excluded(self, posts):
+        urls = {p.url for p in posts}
+        assert "https://www.bvp.com/news" not in urls
+        assert "https://www.bvp.com/atlas" not in urls
+
+    def test_spelled_out_billion_is_not_pre_flagged(self, posts):
+        """"$3.85 billion" does not match the dollar-figure title pattern.
+
+        \\$\\d+(\\.\\d+)?\\s?[MB]\\b needs a word boundary after M or B, so
+        "$3.85B" matches and "$3.85 billion" does not. Left that way on
+        purpose: likely_investment=True SKIPS the classifier entirely, so a
+        loose pattern here sends an essay titled "The $100 billion
+        opportunity" straight to extraction unchecked. None costs one model
+        call and is the safe direction to be wrong in.
+
+        Contrast Antler's "Antler Raises additional $510 Million", which IS
+        pre-flagged — not by the dollar pattern but by \\braises?\\b.*\\$.
+        Both are the firm rather than a portfolio company, so the classifier
+        has to catch them either way.
+        """
+        flagship = next(p for p in posts if "expanding-opportunities" in p.url)
+        assert "$3.85 billion" in flagship.title
+        assert flagship.likely_investment is None
 
 
 class TestNEA:
