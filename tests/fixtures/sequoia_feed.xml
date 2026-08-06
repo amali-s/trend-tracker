@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Trimmed skeleton of https://www.sequoiacap.com/feed/ as served 2026-08-06.
+
+  Structure only: four items covering the cases the parser has to get right.
+  Descriptions are stubbed rather than reproduced. Note that <link> uses the
+  bare host (sequoiacap.com) while the site is served from www.sequoiacap.com
+  -- that mismatch is real and is the reason same_site() exists.
+-->
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+  <title>Sequoia Capital</title>
+  <link>https://www.sequoiacap.com</link>
+  <description>Stories from Sequoia Capital</description>
+  <language>en-US</language>
+
+  <!-- Funding announcement: firm's own tag is the gate -->
+  <item>
+    <title>Partnering with Sable: Closing the Diffusion Gap</title>
+    <link>https://sequoiacap.com/article/partnering-with-sable-closing-the-diffusion-gap/</link>
+    <pubDate>Thu, 16 Jul 2026 14:00:00 +0000</pubDate>
+    <category><![CDATA[AI]]></category>
+    <category><![CDATA[Funding announcement]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!-- Second funding announcement, multiple tags -->
+  <item>
+    <title>Partnering with Bunkerhill Health: AI Agents that Improve Patient Outcomes</title>
+    <link>https://sequoiacap.com/article/partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes/</link>
+    <pubDate>Thu, 16 Jul 2026 09:30:00 +0000</pubDate>
+    <category><![CDATA[AI]]></category>
+    <category><![CDATA[Funding announcement]]></category>
+    <category><![CDATA[Healthcare]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!-- Essay: no funding tag, title matches no investment convention -->
+  <item>
+    <title>America&#8217;s Open-Model Paradox</title>
+    <link>https://sequoiacap.com/article/americas-open-model-paradox/</link>
+    <pubDate>Fri, 24 Jul 2026 16:00:00 +0000</pubDate>
+    <category><![CDATA[AI]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!--
+    Funding announcement whose title matches NO title convention -- it does not
+    start with "Partnering with", contains no dollar figure and no "Series X".
+    Only the tag can classify this one.
+
+    Constructed deliberately: Sequoia titles funding posts "Partnering with X"
+    almost without exception, so every naturally-occurring tagged item also
+    matches investment_title_patterns. That makes the tag gate look tested when
+    it is not -- a mutation removing investment_label_patterns entirely still
+    passed until this item existed.
+  -->
+  <item>
+    <title>All Systems Nominal</title>
+    <link>https://sequoiacap.com/article/all-systems-nominal/</link>
+    <pubDate>Thu, 21 May 2026 15:00:00 +0000</pubDate>
+    <category><![CDATA[Funding announcement]]></category>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+  <!-- Portfolio M&A, not a new round. Untagged; the classifier must decide. -->
+  <item>
+    <title>Cyera and Oasis: Stronger Together</title>
+    <link>https://sequoiacap.com/article/cyera-and-oasis-stronger-together/</link>
+    <pubDate>Tue, 28 Jul 2026 12:00:00 +0000</pubDate>
+    <description><![CDATA[Stubbed.]]></description>
+  </item>
+
+</channel>
+</rss>

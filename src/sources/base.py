@@ -138,6 +138,10 @@ class BaseSource(ABC):
     investment_url_pattern: Optional[str] = None
     # Title prefixes that reliably indicate an announcement, e.g. "Investing in".
     investment_title_patterns: list[str] = []
+    # Category/tag values that reliably indicate one. Feeds and card labels
+    # often carry the firm's own classification, which beats any title
+    # heuristic — Sequoia tags funding posts "Funding announcement".
+    investment_label_patterns: list[str] = []
 
     # Politeness delay between requests to the same host
     request_delay: float = 1.0
@@ -234,14 +238,15 @@ class BaseSource(ABC):
             if not title:
                 continue
 
+            labels = self.extract_labels(anchor)
             seen.add(url)
             posts.append(BlogPost(
                 url=url,
                 title=title,
                 vc_firm=self.name,
                 published_date=self.extract_date_near(anchor),
-                labels=self.extract_labels(anchor),
-                likely_investment=self.looks_like_investment(url, title),
+                labels=labels,
+                likely_investment=self.looks_like_investment(url, title, labels),
             ))
 
         return posts
@@ -259,8 +264,10 @@ class BaseSource(ABC):
 
         return bool(re.search(self.post_url_pattern, url, re.IGNORECASE))
 
-    def looks_like_investment(self, url: str, title: str) -> Optional[bool]:
-        """Cheap pre-classification from URL/title alone.
+    def looks_like_investment(
+        self, url: str, title: str, labels: Optional[list[str]] = None
+    ) -> Optional[bool]:
+        """Cheap pre-classification from URL, title, or the firm's own tags.
 
         Returns True when confident, None when unknown. Never returns False —
         a negative here would silently drop posts, and that decision belongs to
@@ -273,6 +280,10 @@ class BaseSource(ABC):
         for pattern in self.investment_title_patterns:
             if re.search(pattern, title, re.IGNORECASE):
                 return True
+        for pattern in self.investment_label_patterns:
+            for label in labels or []:
+                if re.search(pattern, label, re.IGNORECASE):
+                    return True
         return None
 
     def extract_title(self, anchor) -> str:

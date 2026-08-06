@@ -66,14 +66,17 @@ class RSSSource(BaseSource):
                 if not title:
                     continue
 
+                labels = [
+                    t.get("term", "") for t in entry.get("tags", []) if t.get("term")
+                ]
                 seen.add(url)
                 posts.append(BlogPost(
                     url=url,
                     title=title,
                     vc_firm=self.name,
                     published_date=self._entry_date(entry),
-                    labels=[t.get("term", "") for t in entry.get("tags", []) if t.get("term")],
-                    likely_investment=self.looks_like_investment(url, title),
+                    labels=labels,
+                    likely_investment=self.looks_like_investment(url, title, labels),
                 ))
 
         logger.info(f"[{self.name}] Discovered {len(posts)} posts from feed")

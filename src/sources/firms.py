@@ -9,8 +9,9 @@ pages actually served on 2026-08-05:
     a16z               VERIFIED  static HTML (WordPress), investments at /announcement/
     Contrary           VERIFIED  static HTML, dates on index, "Load more" button
     General Catalyst   VERIFIED  static HTML (Webflow), ?<hash>_page=N pagination
+    Sequoia            VERIFIED  RSS feed; HTML index is client-rendered (2026-08-06)
 
-The other ten are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other nine are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -28,6 +29,7 @@ from bs4 import BeautifulSoup
 
 from ..models import BlogPost
 from .base import BaseSource
+from .rss_base import RSSSource, WordPressSource
 
 # Titles that reliably mark a funding announcement across these blogs.
 # Used only to set likely_investment=True and skip an LLM call — never to
@@ -233,21 +235,44 @@ class GeneralCatalystSource(BaseSource):
 # `python -m src.probe` and correct them before relying on the output.
 # ===========================================================================
 
-class SequoiaSource(BaseSource):
-    """Sequoia — news stories. UNVERIFIED.
+class SequoiaSource(RSSSource):
+    """Sequoia — news stories. Verified 2026-08-06, via feed.
 
-    The `?_story-category=news` filter in the index URL looks like a CMS query
-    parameter. Confirm it's applied server-side; if the filtering happens in
-    the browser, this will return all stories rather than just news, and the
-    classifier will have to carry the load.
+    The HTML index is a dead end: /stories/?_story-category=news served only
+    five same-host links, all of them nav (/our-companies, /our-team, ...).
+    The story cards are client-rendered, so there is nothing to harvest and
+    the `?_story-category` filter question is moot.
+
+    The feed answers everything the HTML could not. /feed/ returns 10 recent
+    entries with real publication dates, and posts live at /article/<slug>/,
+    not /stories/<slug>/ as inferred.
+
+    Two things worth knowing:
+
+    - Feed entries point at sequoiacap.com while the site is served from
+      www.sequoiacap.com. BaseSource.is_post_url compares hosts with a `www.`
+      prefix ignored, which is the only reason these match at all.
+    - Sequoia tags its own posts, and "Funding announcement" appears on
+      exactly the posts we want. That is a firm-authored gate, better than any
+      title heuristic, and it lets the LLM classifier be skipped the way
+      a16z's /announcement/ path does. Titles follow "Partnering with X: ..."
+      but the tag is the reliable signal.
+
+    A WordPress REST endpoint also exists at /wp-json/wp/v2/posts and would
+    give deeper pagination, but it returns tags as numeric IDs requiring a
+    second request. At Sequoia's cadence -- roughly two to four posts a month
+    -- ten feed entries is over a month of coverage, so the tags are worth
+    more than the depth.
     """
 
     name = "Sequoia"
     base_url = "https://www.sequoiacap.com"
     index_urls = ["https://www.sequoiacap.com/stories/?_story-category=news"]
+    feed_urls = ["https://www.sequoiacap.com/feed/"]
     post_url_pattern = r"sequoiacap\.com/(article|stories)/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/stories$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+    investment_label_patterns = [r"^funding announcement$"]
 
 
 class IndexVenturesSource(BaseSource):
@@ -411,10 +436,10 @@ VERIFIED_SOURCES = [
     A16ZSource,
     ContrarySource,
     GeneralCatalystSource,
+    SequoiaSource,
 ]
 
 UNVERIFIED_SOURCES = [
-    SequoiaSource,
     IndexVenturesSource,
     KleinerPerkinsSource,
     AccelSource,

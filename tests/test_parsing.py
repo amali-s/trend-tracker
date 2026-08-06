@@ -28,6 +28,7 @@ from src.sources.firms import (  # noqa: E402
     ContrarySource,
     GeneralCatalystSource,
     GreylockSource,
+    SequoiaSource,
 )
 from src.state import collapse_syndicates  # noqa: E402
 
@@ -38,6 +39,30 @@ def load(name: str, source, page_url: str):
     with open(os.path.join(FIXTURES, name)) as f:
         soup = BeautifulSoup(f.read(), "lxml")
     return source.parse_index(soup, page_url)
+
+
+class _StubResponse:
+    def __init__(self, content: bytes):
+        self.content = content
+        self.text = content.decode("utf-8")
+        self.status_code = 200
+
+    def raise_for_status(self):
+        return None
+
+
+def load_feed(name: str, source):
+    """Run a feed-backed source's real scrape() against a fixture.
+
+    Feed sources don't go through parse_index, so the HTML `load` helper can't
+    reach them. Stubbing the session keeps the test offline while still
+    exercising scrape() -- the code the pipeline actually calls.
+    """
+    with open(os.path.join(FIXTURES, name), "rb") as f:
+        payload = f.read()
+    source.request_delay = 0
+    source.session.get = lambda *a, **k: _StubResponse(payload)  # type: ignore[method-assign]
+    return source.scrape()
 
 
 # ---------------------------------------------------------------------------
@@ -394,6 +419,72 @@ class TestHostScoping:
         assert all(
             "generalcatalyst.com" in p.url for p in posts
         ), "an off-site link leaked into the results"
+
+
+class TestSequoiaFeed:
+    """Sequoia is feed-backed: its HTML index is client-rendered and yields
+    nothing, so scrape() reads /feed/ instead."""
+
+    def _posts(self):
+        return load_feed("sequoia_feed.xml", SequoiaSource())
+
+    def test_discovers_posts_from_feed(self):
+        posts = self._posts()
+        assert len(posts) == 5
+
+    def test_bare_host_links_are_accepted(self):
+        """Feed links use sequoiacap.com; base_url is www.sequoiacap.com.
+
+        Without www-insensitive host matching every entry is discarded and
+        this source silently returns zero.
+        """
+        posts = self._posts()
+        assert posts, "feed entries were rejected by the host check"
+        assert all("sequoiacap.com" in p.url for p in posts)
+
+    def test_feed_supplies_real_publication_dates(self):
+        """The reason to prefer a feed: the HTML index has no dates at all."""
+        posts = self._posts()
+        assert all(p.published_date is not None for p in posts)
+        by_url = {p.url.rsplit("/", 1)[-1]: p for p in posts}
+        assert by_url["americas-open-model-paradox"].published_date.date() == \
+            datetime(2026, 7, 24).date()
+
+    def test_funding_tag_gates_the_classifier(self):
+        """The tag alone must be sufficient, with no help from the title.
+
+        "All Systems Nominal" matches no investment_title_pattern, so if this
+        passes, investment_label_patterns is genuinely doing the work. The
+        obvious version of this test -- asserting on the "Partnering with X"
+        posts -- passes via the title pattern even with the tag gate deleted.
+        """
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        post = by_slug["all-systems-nominal"]
+        assert post.likely_investment is True
+        assert "Funding announcement" in post.labels
+        # Guard the premise: if Sequoia's title rules ever start matching this
+        # title, the test silently stops proving anything.
+        source = SequoiaSource()
+        assert source.looks_like_investment(post.url, post.title, labels=[]) is None
+
+    def test_tagged_posts_matching_title_convention_also_flagged(self):
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug["partnering-with-sable-closing-the-diffusion-gap"].likely_investment is True
+
+    def test_untagged_posts_stay_undecided_not_rejected(self):
+        """likely_investment is three-valued: True or None, never False.
+
+        An essay and an acquisition post both go to the classifier rather than
+        being dropped here, because only the classifier reads the body.
+        """
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug["americas-open-model-paradox"].likely_investment is None
+        assert by_slug["cyera-and-oasis-stronger-together"].likely_investment is None
+
+    def test_tags_are_captured_as_labels(self):
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        labels = by_slug["partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes"].labels
+        assert "Healthcare" in labels and "AI" in labels
 
 
 class TestRegistry:
