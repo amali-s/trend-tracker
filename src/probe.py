@@ -90,6 +90,10 @@ def probe_source(source: BaseSource, save_fixtures: bool = False) -> dict:
         "embedded_json": None,
         "error": None,
         "http_status": None,
+        "scraped": 0,
+        "dated": 0,
+        "sample_titles": [],
+        "scrape_error": None,
     }
 
     result["feeds"] = probe_feeds(source)
@@ -144,6 +148,16 @@ def probe_source(source: BaseSource, save_fixtures: bool = False) -> dict:
         )
         result["near_misses"] = [f"{p} ({n} links)" for p, n in prefixes.most_common(8)]
 
+    # Ground truth: run the source's real discovery path. Everything above is
+    # static analysis of one index page; this is what the pipeline will call.
+    try:
+        discovered = source.scrape()
+        result["scraped"] = len(discovered)
+        result["sample_titles"] = [p.title for p in discovered[:3]]
+        result["dated"] = sum(1 for p in discovered if p.published_date)
+    except Exception as e:  # noqa: BLE001
+        result["scrape_error"] = str(e)[:200]
+
     result["has_dates"] = bool(soup.find("time")) or bool(
         re.search(
             r"\b(January|February|March|April|May|June|July|August|September|"
@@ -156,17 +170,38 @@ def probe_source(source: BaseSource, save_fixtures: bool = False) -> dict:
 
 
 def tier_for(result: dict) -> str:
+    """Classify the site.
+
+    Deliberately does NOT consider `feeds` a pass on its own. A feed existing
+    on the host says nothing about whether *this source* is configured to read
+    it — every source here is HTML-based unless it subclasses RSSSource — and
+    an earlier version of this function returned "B (feed)" before it ever
+    looked at match_count, which reported Sequoia and Battery as OK while both
+    were discovering exactly zero posts.
+    """
     if result["error"]:
         return "ERROR"
-    if result["feeds"]:
-        return "B (feed)"
+    if result.get("scraped"):
+        return "A (static HTML)" if not result["feeds"] else "B (feed-backed)"
     if result.get("match_count"):
-        return "A (static HTML)"
+        return "A (pattern matches, but scrape() returned nothing)"
+    if result["feeds"]:
+        return "B? (feed on host, but this source reads HTML and matched 0)"
     if result["embedded_json"]:
         return "D (embedded JSON)"
     if result["static_links"] < 15:
-        return "C (client-rendered — needs Playwright)"
+        return "C (client-rendered — needs a JSON endpoint or Playwright)"
     return "A? (links present, pattern wrong)"
+
+
+def is_ok(result: dict) -> bool:
+    """A source passes only if its real discovery path yields posts.
+
+    `scrape()` is the ground truth because it is the code the pipeline
+    actually runs — feed subclasses included. Static link-matching is kept
+    around for diagnosis, not as the pass condition.
+    """
+    return bool(result.get("scraped"))
 
 
 def main() -> int:
@@ -222,12 +257,22 @@ def main() -> int:
         if result["embedded_json"]:
             print(f"  Embedded JSON:   {result['embedded_json']}")
 
+        # The authoritative line: what the real discovery path returned.
+        if result["scrape_error"]:
+            print(f"  scrape() ERROR:  {result['scrape_error']}")
+        else:
+            print(f"  scrape() posts:  {result['scraped']}"
+                  f"  ({result['dated']} with a publication date)")
+            for title in result["sample_titles"]:
+                print(f"    > {title[:70]}")
+
     print(f"\n\n{'=' * 68}\nSUMMARY\n{'=' * 68}")
     for result in results:
-        status = "OK " if result.get("match_count") or result["feeds"] else "FIX"
-        print(f"  [{status}] {result['name']:<20} {tier_for(result)}")
+        status = "OK " if is_ok(result) else "FIX"
+        print(f"  [{status}] {result['name']:<20} {result['scraped']:>3} posts  "
+              f"{tier_for(result)}")
 
-    broken = [r["name"] for r in results if not (r.get("match_count") or r["feeds"])]
+    broken = [r["name"] for r in results if not is_ok(r)]
     if broken:
         print(f"\n{len(broken)} source(s) need attention: {', '.join(broken)}")
         print("Correct their post_url_pattern in src/sources/firms.py and re-run.")
