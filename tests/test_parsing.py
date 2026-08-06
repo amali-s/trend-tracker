@@ -31,6 +31,7 @@ from src.sources.firms import (  # noqa: E402
     GeneralCatalystSource,
     GreylockSource,
     KleinerPerkinsSource,
+    LSVPSource,
     SequoiaSource,
 )
 from src.state import collapse_syndicates  # noqa: E402
@@ -475,6 +476,54 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestLightspeedWordPress:
+    """Lightspeed reads WP REST, after two wrong paths were ruled out."""
+
+    def _posts(self):
+        return load_feed("lightspeed_wp_posts.json", LSVPSource())
+
+    def test_only_stories_discovered(self):
+        posts = self._posts()
+        assert len(posts) == 4  # 6 records; /founder/ and /company/ excluded
+        assert all("/stories/" in p.url for p in posts)
+
+    def test_founder_and_company_records_excluded(self):
+        """These are what /feed/ is full of — the decoy this source avoids.
+
+        The (stories|blog) scoping in post_url_pattern is what rejects them.
+        An explicit /(founder|company)/ exclude was tried and removed: it was
+        dead code, and it made this test look like it was testing something
+        it was not.
+        """
+        urls = " ".join(p.url for p in self._posts())
+        assert "/founder/" not in urls
+        assert "/company/" not in urls
+
+    def test_titles_keep_their_punctuation(self):
+        """The whole reason for using the API over the HTML index.
+
+        Anchors on the index are empty, so titles fell back to the slug and
+        "$3.5B" arrived as "3 5B" — unreadable to the amount extractor.
+        """
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        anthropic = by_slug[
+            "lightspeed-announces-lead-investment-in-anthropics-3-5b-series-e-financing"
+        ]
+        assert "$3.5B" in anthropic.title
+        assert "3 5B" not in anthropic.title
+        andera = by_slug["audits-moment-has-arrived-why-we-invested-in-andera"]
+        assert andera.title.startswith("Audit’s Moment Has Arrived.")
+
+    def test_every_post_dated(self):
+        assert all(p.published_date is not None for p in self._posts())
+
+    def test_round_size_in_title_flags_investment(self):
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug[
+            "lightspeed-announces-lead-investment-in-anthropics-3-5b-series-e-financing"
+        ].likely_investment is True
 
 
 class TestKleinerPerkinsFeed:

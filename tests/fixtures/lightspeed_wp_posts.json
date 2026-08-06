@@ -1,0 +1,44 @@
+[
+  {
+    "_comment": "Trimmed skeleton of https://lsvp.com/wp-json/wp/v2/posts as served 2026-08-06. Only link, title.rendered and date are kept; the live objects carry ~40 more fields including full rendered bodies.",
+    "id": 71001,
+    "date": "2026-07-09T10:00:00",
+    "link": "https://lsvp.com/stories/why-we-partnered-with-nirva/",
+    "title": { "rendered": "Why We Partnered with Nirva" }
+  },
+  {
+    "_comment": "Punctuation matters: the HTML path rendered this slug as 'Audits Moment Has Arrived Why We Invested In Andera'.",
+    "id": 71002,
+    "date": "2026-06-17T09:00:00",
+    "link": "https://lsvp.com/stories/audits-moment-has-arrived-why-we-invested-in-andera/",
+    "title": { "rendered": "Audit&#8217;s Moment Has Arrived. Why We Invested in Andera." }
+  },
+  {
+    "_comment": "The case the slug fallback mangled worst: '$3.5B' became '3 5B'.",
+    "id": 71003,
+    "date": "2026-06-11T12:00:00",
+    "link": "https://lsvp.com/stories/lightspeed-announces-lead-investment-in-anthropics-3-5b-series-e-financing/",
+    "title": { "rendered": "Lightspeed Announces Lead Investment in Anthropic&#8217;s $3.5B Series E Financing" }
+  },
+  {
+    "_comment": "An essay, not a round.",
+    "id": 71004,
+    "date": "2026-05-21T08:00:00",
+    "link": "https://lsvp.com/stories/filesystemsforagents/",
+    "title": { "rendered": "File Systems for Agents" }
+  },
+  {
+    "_comment": "A /founder/ record of the kind /feed/ is full of. Must not survive is_post_url.",
+    "id": 71005,
+    "date": "2026-07-31T00:00:00",
+    "link": "https://lsvp.com/founder/hanying-hu/",
+    "title": { "rendered": "Hanying Hu" }
+  },
+  {
+    "_comment": "A /company/ record, same decoy family.",
+    "id": 71006,
+    "date": "2026-07-22T00:00:00",
+    "link": "https://lsvp.com/company/cuspai/",
+    "title": { "rendered": "CuspAI" }
+  }
+]

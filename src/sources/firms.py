@@ -13,8 +13,9 @@ pages actually served on 2026-08-05:
     Antler             VERIFIED  static HTML; posts at /press-releases/ (2026-08-06)
     Battery Ventures   VERIFIED  WordPress REST; /news/ is outbound-only (2026-08-06)
     Kleiner Perkins    VERIFIED  RSS feed, chosen over a working index for dates (2026-08-06)
+    Lightspeed         VERIFIED  WordPress REST; /feed/ is a decoy (2026-08-06)
 
-The other six are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other five are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -492,15 +493,36 @@ class AntlerSource(BaseSource):
         return super().extract_date_near(anchor)
 
 
-class LSVPSource(BaseSource):
-    """Lightspeed — stories. UNVERIFIED."""
+class LSVPSource(WordPressSource):
+    """Lightspeed — stories, via the WordPress REST API. Verified 2026-08-06.
+
+    Two wrong paths were ruled out before this one.
+
+    The HTML index "works" -- 32 matches -- but the post anchors are empty, so
+    every title fell back to the slug and lost its punctuation:
+    "Lightspeed Announces Lead Investment In Anthropics 3 5B Series E
+    Financing". A round size rendered as "3 5B" is worse than useless to the
+    extractor, which has to read a dollar figure out of it.
+
+    /feed/ is a decoy. It parses cleanly and returns 10 dated entries, which
+    is exactly why it is dangerous -- but they are /founder/<name> and
+    /company/<slug> CMS records, not stories. A source pointed at it would
+    look healthy in the probe and never surface a single announcement.
+
+    /wp-json/wp/v2/posts is the real one: /stories/<slug> with titles intact
+    ("Audit's Moment Has Arrived. Why We Invested in Andera.") and a real
+    publication date on every item.
+    """
 
     name = "Lightspeed"
     base_url = "https://lsvp.com"
     index_urls = ["https://lsvp.com/stories/"]
+    wp_api_base = "https://lsvp.com/wp-json/wp/v2"
     post_url_pattern = r"lsvp\.com/(stories|blog)/[a-z0-9][a-z0-9-]+$"
     exclude_url_patterns = [r"/stories$", r"/blog$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+    max_pages = 1
+    per_page = 50
 
 
 class BessemerSource(BaseSource):
@@ -547,13 +569,13 @@ VERIFIED_SOURCES = [
     AntlerSource,
     BatterySource,
     KleinerPerkinsSource,
+    LSVPSource,
 ]
 
 UNVERIFIED_SOURCES = [
     IndexVenturesSource,
     AccelSource,
     NEASource,
-    LSVPSource,
     BessemerSource,
     DesignerFundSource,
 ]
