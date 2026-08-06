@@ -1,0 +1,24 @@
+# Secrets — never commit. Use .env.example as the template.
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Local render target for --dry-run
+preview.html
+
+# Derived, potentially large, and may contain body-derived text.
+# This one belongs in actions/cache, where eviction is harmless.
+data/extraction_cache.json
+
+# NOTE: data/ itself is deliberately NOT ignored. seen_posts.json,
+# seen_investments.json and weekly_history.json ARE the "nothing repeats"
+# guarantee, and the workflow commits them back after each run because
+# actions/cache evicts entries after an inactivity window that may be about
+# as long as this schedule's weekly interval. See PLAN.md §9.
