@@ -99,6 +99,28 @@ def canonicalize_url(url: str, base: str = "") -> str:
     ))
 
 
+def registrable_host(url: str) -> str:
+    """Host of a URL with a leading `www.` removed.
+
+    `www.example.com` and `example.com` are the same site by universal
+    convention, and feeds routinely disagree with the page they describe about
+    which form to emit: Sequoia's index is served from www.sequoiacap.com while
+    every entry in its RSS feed points at sequoiacap.com. A literal netloc
+    comparison rejects all of them.
+
+    Only the `www.` label is stripped. Any other subdomain is a genuinely
+    different host and must stay one — jobs.greylock.com is not greylock.com,
+    which is exactly the kind of cross-property link this check exists to drop.
+    """
+    host = urlparse(url).netloc.lower()
+    return host[4:] if host.startswith("www.") else host
+
+
+def same_site(url: str, other: str) -> bool:
+    """Are these two URLs on the same site, ignoring a `www.` prefix?"""
+    return registrable_host(url) == registrable_host(other)
+
+
 class BaseSource(ABC):
     """Base class for a single VC firm's blog."""
 
@@ -228,7 +250,7 @@ class BaseSource(ABC):
         """Does this URL look like an individual post on this blog?"""
         # Must be on the same host — external coverage links are not our posts
         if self.base_url:
-            if urlparse(url).netloc.lower() != urlparse(self.base_url).netloc.lower():
+            if not same_site(url, self.base_url):
                 return False
 
         for pattern in GENERIC_EXCLUDES + self.exclude_url_patterns:

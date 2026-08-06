@@ -354,6 +354,38 @@ class TestHostScoping:
         source = self._path_only_source()
         assert source.is_post_url("https://jobs.example.com/blog/a-post") is False
 
+    def test_www_is_the_same_host(self):
+        """www.example.com and example.com are one site.
+
+        Real case: Sequoia's index is served from www.sequoiacap.com but every
+        entry in its RSS feed points at sequoiacap.com. A literal netloc
+        comparison drops the entire feed.
+        """
+        source = self._path_only_source()  # base_url is https://example.com
+        assert source.is_post_url("https://www.example.com/blog/a-post") is True
+
+    def test_www_equivalence_is_symmetric(self):
+        """The www-form base_url must accept bare-host post URLs too."""
+        class WwwSource(BaseSource):
+            name = "Www"
+            base_url = "https://www.example.com"
+            index_urls = ["https://www.example.com/blog"]
+            post_url_pattern = r"/blog/[a-z0-9-]+$"
+            exclude_url_patterns = [r"/blog$"]
+
+        source = WwwSource()
+        assert source.is_post_url("https://example.com/blog/a-post") is True
+        assert source.is_post_url("https://jobs.example.com/blog/a-post") is False
+
+    def test_www_stripping_does_not_merge_unrelated_hosts(self):
+        """Only the `www.` label is stripped, not any leading label."""
+        from src.sources.base import registrable_host
+        assert registrable_host("https://www.example.com/x") == "example.com"
+        assert registrable_host("https://example.com/x") == "example.com"
+        # Not a `www.` prefix — must survive intact
+        assert registrable_host("https://wwwfoo.example.com/x") == "wwwfoo.example.com"
+        assert registrable_host("https://jobs.example.com/x") == "jobs.example.com"
+
     def test_external_links_filtered_from_real_index(self):
         """End-to-end: GC's index carries wsj/forbes/techcrunch links."""
         posts = load("general_catalyst_index.html", GeneralCatalystSource(),
