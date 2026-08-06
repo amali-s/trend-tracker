@@ -10,8 +10,9 @@ pages actually served on 2026-08-05:
     Contrary           VERIFIED  static HTML, dates on index, "Load more" button
     General Catalyst   VERIFIED  static HTML (Webflow), ?<hash>_page=N pagination
     Sequoia            VERIFIED  RSS feed; HTML index is client-rendered (2026-08-06)
+    Antler             VERIFIED  static HTML; posts at /press-releases/ (2026-08-06)
 
-The other nine are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other eight are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -369,20 +370,91 @@ class NEASource(BaseSource):
 
 
 class AntlerSource(BaseSource):
-    """Antler — newsroom. UNVERIFIED.
+    """Antler — newsroom. Verified 2026-08-06.
 
-    Antler runs a very high volume of small pre-seed deals across many
-    geographies. Expect this source to dominate deal *count* while contributing
-    little to deal *dollars* — worth remembering when reading the trend table,
-    and a reason the rollup reports both.
+    The inferred /newsroom/<slug> and /blog/<slug> paths do not exist. The
+    newsroom index is a listing page and the posts it links to live at
+    /press-releases/<slug>, e.g.
+    /press-releases/agentio-raises-40m-series-b-to-scale-ai-native-platform...
+
+    The index also carries 18 /location/<country> links (Antler operates in
+    many geographies) and a handful of /legal/ pages, all two-segment paths
+    that a looser pattern would happily swallow. Scoping to /press-releases/
+    keeps them out without needing excludes for each.
+
+    Pagination is Webflow's ?<hash>_page=N, and the page carries two different
+    hashes (7eb107ba, f4c053cc) for two separate listings. Both are tied to
+    the current build and will change on redeploy, so neither is hardcoded --
+    page 1 only, as with General Catalyst.
+
+    Not every press release is an investment: the index mixes rounds
+    ("Agentio raises $40M Series B") with firm news ("Antler appoints Hiro
+    Kiga as Partner") and Antler's own fundraising ("Antler raises additional
+    $510 million"). That last category is a genuine trap -- it matches the
+    investment title patterns perfectly but is the *firm* raising, not a
+    portfolio company. The classifier has to catch it.
+
+    Antler runs a very high volume of small pre-seed deals, so expect this
+    source to dominate deal *count* while contributing little to deal
+    *dollars* -- a reason the rollup reports both.
     """
 
     name = "Antler"
     base_url = "https://www.antler.co"
     index_urls = ["https://www.antler.co/newsroom"]
-    post_url_pattern = r"antler\.co/(blog|newsroom)/[a-z0-9][a-z0-9-]+$"
-    exclude_url_patterns = [r"/newsroom$", r"/blog$"]
+    post_url_pattern = r"antler\.co/press-releases/[a-z0-9][a-z0-9-]+$"
+    exclude_url_patterns = [r"/press-releases$", r"/newsroom$", r"/blog$"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+
+    # Antler renders the date as plain text in the card, not in a <time>.
+    DATE_TEXT = re.compile(
+        r"\b(January|February|March|April|May|June|July|August|September|"
+        r"October|November|December)\s+\d{1,2},\s+\d{4}\b"
+    )
+
+    def _card(self, anchor):
+        """Walk up to the card container that holds the title and date.
+
+        The anchor itself is a bare "Read more" link; the title is a sibling
+        several levels up. Stops at the first ancestor carrying real content
+        rather than assuming a fixed depth, since the wrapper divs are
+        Webflow-generated and their nesting is not a stable contract.
+        """
+        node = anchor
+        for _ in range(5):
+            node = node.parent
+            if node is None:
+                return None
+            if len(node.get_text(" ", strip=True)) > 40:
+                return node
+        return None
+
+    def extract_title(self, anchor) -> str:
+        """Take the longest text node in the card.
+
+        The card's strings are [region, date, title, "Read more" x3]. The
+        title is always the longest by a wide margin, which is sturdier than
+        positional indexing into Webflow's wrapper divs. Without this the
+        anchor text wins and every post is titled "Read more".
+        """
+        card = self._card(anchor)
+        if card is not None:
+            pieces = [self.clean_text(s) for s in card.stripped_strings]
+            pieces = [
+                p for p in pieces
+                if len(p) > 12 and not self.DATE_TEXT.fullmatch(p)
+            ]
+            if pieces:
+                return max(pieces, key=len)
+        return super().extract_title(anchor)
+
+    def extract_date_near(self, anchor):
+        card = self._card(anchor)
+        if card is not None:
+            match = self.DATE_TEXT.search(card.get_text(" ", strip=True))
+            if match:
+                return self.parse_date(match.group(0))
+        return super().extract_date_near(anchor)
 
 
 class LSVPSource(BaseSource):
@@ -437,6 +509,7 @@ VERIFIED_SOURCES = [
     ContrarySource,
     GeneralCatalystSource,
     SequoiaSource,
+    AntlerSource,
 ]
 
 UNVERIFIED_SOURCES = [
@@ -445,7 +518,6 @@ UNVERIFIED_SOURCES = [
     AccelSource,
     BatterySource,
     NEASource,
-    AntlerSource,
     LSVPSource,
     BessemerSource,
     DesignerFundSource,

@@ -1,0 +1,65 @@
+<!--
+  Trimmed skeleton of https://www.antler.co/newsroom as served 2026-08-06.
+
+  Structure only: the nav/location/legal links that a looser pattern would
+  swallow, Webflow's build-hashed pagination, and three cards covering the
+  three kinds of press release Antler publishes. Card nesting depth and the
+  bare "Read more" anchor are reproduced faithfully because extract_title
+  depends on both; Webflow's generated class names are dropped as noise.
+-->
+<html>
+<head><title>Newsroom | Antler</title></head>
+<body>
+
+<nav>
+  <a href="/">Home</a>
+  <a href="/about">About</a>
+  <a href="/portfolio">Portfolio</a>
+  <a href="/newsroom">Newsroom</a>
+  <a href="/insights">Insights</a>
+  <a href="/founder-stories">Founder Stories</a>
+  <!-- 18 of these on the live page; two-segment paths a loose pattern eats -->
+  <a href="/location/singapore">Singapore</a>
+  <a href="/location/us">US</a>
+  <a href="/location/vietnam">Vietnam</a>
+  <a href="/legal/privacy-policy">Privacy Policy</a>
+  <a href="/legal/fraud-disclaimer">Fraud Disclaimer</a>
+</nav>
+
+<main>
+
+  <!-- A portfolio company raising a round: what the digest wants -->
+  <div class="card">
+    <div>Global</div>
+    <div>July 22, 2026</div>
+    <div>Agentio raises $40M Series B to scale AI-native platform for creator-led advertising</div>
+    <div><div><a href="/press-releases/agentio-raises-40m-series-b-to-scale-ai-native-platform-for-creator-led-advertising">Read more</a></div></div>
+  </div>
+
+  <!-- Firm news, not a round -->
+  <div class="card">
+    <div>Asia</div>
+    <div>July 8, 2026</div>
+    <div>Antler appoints Hiro Kiga as Partner to drive early-stage tech investment in Southeast Asia and Japan</div>
+    <div><div><a href="/press-releases/antler-appoints-hiro-kiga-as-partner-to-drive-early-stage-tech-investment-in-southeast-asia-and-japan">Read more</a></div></div>
+  </div>
+
+  <!-- The trap: matches the investment title patterns, but it is the FIRM
+       raising, not a portfolio company. Only the classifier can catch this. -->
+  <div class="card">
+    <div>Global</div>
+    <div>July 1, 2026</div>
+    <div>Antler Raises additional $510 Million within the Last 12 Months to Support Founders from Inception to Scale</div>
+    <div><div><a href="/press-releases/antler-raises-additional-510-million-within-the-last-12-months-to-support-founders-from-inception-to-scale">Read more</a></div></div>
+  </div>
+
+</main>
+
+<!-- Webflow pagination: the hash is tied to the build and changes on redeploy -->
+<div class="pagination">
+  <a href="/newsroom?7eb107ba_page=2">Next</a>
+  <a href="/newsroom?f4c053cc_page=2">Next</a>
+</div>
+
+</body>
+</html>

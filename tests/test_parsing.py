@@ -25,6 +25,7 @@ from src.sources.base import BaseSource, canonicalize_url  # noqa: E402
 from src.sources.firms import (  # noqa: E402
     ALL_SOURCES,
     A16ZSource,
+    AntlerSource,
     ContrarySource,
     GeneralCatalystSource,
     GreylockSource,
@@ -419,6 +420,55 @@ class TestHostScoping:
         assert all(
             "generalcatalyst.com" in p.url for p in posts
         ), "an off-site link leaked into the results"
+
+
+class TestAntler:
+    @pytest.fixture
+    def posts(self):
+        return load("antler_index.html", AntlerSource(),
+                    "https://www.antler.co/newsroom")
+
+    def test_finds_press_releases(self, posts):
+        assert len(posts) == 3
+        assert all("/press-releases/" in p.url for p in posts)
+
+    def test_location_and_legal_pages_excluded(self, posts):
+        """18 /location/<country> links share the two-segment shape of a post."""
+        urls = " ".join(p.url for p in posts)
+        assert "/location/" not in urls
+        assert "/legal/" not in urls
+        assert "/insights" not in urls
+
+    def test_pagination_links_excluded(self, posts):
+        assert not any("_page=" in p.url for p in posts)
+
+    def test_title_comes_from_the_card_not_the_anchor(self, posts):
+        """The anchor is a bare "Read more"; the title is a sibling.
+
+        Without the card walk every post is titled "Read more", which is what
+        the source did when its pattern was first corrected.
+        """
+        titles = {p.title for p in posts}
+        assert "Read more" not in titles
+        assert any(t.startswith("Agentio raises $40M Series B") for t in titles)
+
+    def test_plaintext_date_parsed(self, posts):
+        """Antler has no <time> element, so the generic lookup finds nothing."""
+        agentio = next(p for p in posts if "agentio" in p.url)
+        assert agentio.published_date == datetime(2026, 7, 22)
+        assert all(p.published_date is not None for p in posts)
+
+    def test_date_and_region_kept_out_of_the_title(self, posts):
+        for post in posts:
+            assert "July" not in post.title
+            assert not post.title.startswith(("Global", "Asia"))
+
+    def test_firm_fundraise_still_reaches_the_classifier(self, posts):
+        """"Antler Raises additional $510 Million" is the firm, not a portfolio
+        company -- but it matches the title patterns, so the flag says True and
+        the classifier has to reject it on the body. Documenting the gap."""
+        antler_raise = next(p for p in posts if "510-million" in p.url)
+        assert antler_raise.likely_investment is True
 
 
 class TestSequoiaFeed:
