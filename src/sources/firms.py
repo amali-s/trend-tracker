@@ -17,8 +17,9 @@ pages actually served on 2026-08-05:
     Designer Fund      VERIFIED  static HTML (Framer); no feed exists (2026-08-06)
     Index Ventures     VERIFIED  static HTML; title from slug, not the card (2026-08-06)
     Accel              VERIFIED  static HTML; filter tabs look like posts (2026-08-06)
+    NEA                VERIFIED  static HTML; first heading is often a label (2026-08-06)
 
-The other two are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The last one, Bessemer, is UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -458,14 +459,36 @@ class BatterySource(WordPressSource):
 
 
 class NEASource(BaseSource):
-    """NEA — investment blog. UNVERIFIED.
+    """NEA — blog. Verified 2026-08-06.
 
-    The supplied URL already carries the filters we want:
-    ?type=Read&topic=investment. Keep them, and walk `page`.
+    Static HTML at /blog/<slug>, as inferred. Not an SPA.
 
-    Whether that filtering is server-side is the open question — if the page
-    parameter doesn't change the HTML, it's a client-side SPA and needs
-    Playwright or the underlying JSON endpoint.
+    Titles needed work. Each card anchor stacks several headings and the
+    first one is frequently not the title -- it is either a content-type
+    label ("Blog", "Read", "Listen") or a newsletter series marker ("The
+    Current #16"), with the real title in the *next* heading. Taking the
+    first heading, which is what BaseSource does, produced posts titled
+    "Blog" and "The Current #16". extract_title skips the known chrome and
+    takes the first heading that is not a label.
+
+    Cards also append an author line ("Thomas Joshi, Madison Faulkner, Lila
+    Tretikov and Andrew Schoen") and a "Read More" CTA, which is why the
+    heading is used rather than the anchor's flat text.
+
+    **The `?topic=investment` filter is not doing what the URL implies.** The
+    results are dominated by essays and by "The Current", a recurring
+    consumer-data newsletter, rather than funding announcements. The filter is
+    kept because it does no harm, but the classifier carries the load here --
+    do not treat this source's volume as deal flow.
+
+    On the feed, which the probe reports as 1430 items: it is served from
+    `statamic.nea.com`, their headless CMS backend, not from www.nea.com. Its
+    entries are a different host and mix /team/ and /portfolio/ records in
+    with /blog/. Rewriting the host would work today and would supply real
+    dates, but it means depending on a backend origin that is not the
+    published site and pulling the entire archive weekly. Rejected on both
+    counts; dates come from the detail page instead. Revisit if the index
+    ever starts exposing dates.
     """
 
     name = "NEA"
@@ -476,9 +499,22 @@ class NEASource(BaseSource):
     investment_title_patterns = COMMON_INVESTMENT_TITLES
     max_pages = 3
 
+    # Headings that are card chrome rather than a post title.
+    HEADING_CHROME = re.compile(
+        r"^(blog|read|listen|watch|featured|news|the current\s*#?\d*)$",
+        re.IGNORECASE,
+    )
+
     def paginate(self, index_url: str) -> Iterable[str]:
         for n in range(1, self.max_pages + 1):
             yield f"{index_url}&page={n}"
+
+    def extract_title(self, anchor) -> str:
+        for heading in anchor.find_all(["h1", "h2", "h3", "h4", "h5", "h6"]):
+            text = self.clean_text(heading.get_text(" ", strip=True))
+            if len(text) > 3 and not self.HEADING_CHROME.match(text):
+                return text
+        return super().extract_title(anchor)
 
 
 class AntlerSource(BaseSource):
@@ -664,10 +700,10 @@ VERIFIED_SOURCES = [
     DesignerFundSource,
     IndexVenturesSource,
     AccelSource,
+    NEASource,
 ]
 
 UNVERIFIED_SOURCES = [
-    NEASource,
     BessemerSource,
 ]
 

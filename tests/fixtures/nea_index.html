@@ -1,0 +1,63 @@
+<!--
+  Trimmed skeleton of https://www.nea.com/blog?type=Read&topic=investment as
+  served 2026-08-06. Structure only; excerpts stubbed.
+
+  The detail that matters: each card stacks several headings, and the first is
+  often NOT the title. It may be a content-type label ("Blog") or a newsletter
+  series marker ("The Current #16"), with the real title in the next heading.
+  Taking the first heading produced posts titled "Blog" and "The Current #16".
+  Author lines and the "Read More" CTA are kept for the same reason.
+-->
+<html>
+<head><title>Blog | NEA</title></head>
+<body>
+
+<nav>
+  <a href="/blog">Blog</a>
+  <a href="/team">Team</a>
+  <a href="/portfolio">Portfolio</a>
+</nav>
+
+<div class="filters">
+  <a href="/blog?type=Read&amp;topic=investment">Investment</a>
+  <a href="/blog?type=Read&amp;topic=trends">Trends</a>
+</div>
+
+<main>
+
+  <!-- Content-type label first, real title second, author line third -->
+  <a href="/blog/the-ai-neolab-wild-west">
+    <h3>Blog</h3>
+    <h2>The Neolab Wild West</h2>
+    <h4>Thomas Joshi, Madison Faulkner, Lila Tretikov and Andrew Schoen</h4>
+    <span>Read More</span>
+  </a>
+
+  <!-- Newsletter series marker first. Recurring, and not a funding post. -->
+  <a href="/blog/after-assembly-line-finance">
+    <h3>The Current #16</h3>
+    <h2>After Assembly Line Finance</h2>
+  </a>
+
+  <a href="/blog/stablecoin-remittance-use-case">
+    <h3>The Current #15</h3>
+    <h2>Remittances: A Case Study in Stablecoin Utility</h2>
+  </a>
+
+  <!-- Here the first heading IS the title, with the label trailing -->
+  <a href="/blog/4-ways-autonomous-ai-is-transforming-engineering-systems">
+    <h2>AI Stack Series: 4 System-Based Shifts Redefining the Engineering Org</h2>
+    <h3>Blog</h3>
+  </a>
+
+  <!-- An actual funding announcement, for contrast with the essays above -->
+  <a href="/blog/doubling-down-on-cuspai">
+    <h3>Blog</h3>
+    <h2>From Algorithms to Atoms, Part II: Doubling Down on CuspAI</h2>
+    <h4>Andrew Schoen</h4>
+    <span>Read More</span>
+  </a>
+
+</main>
+</body>
+</html>

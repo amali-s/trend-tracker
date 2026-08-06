@@ -35,6 +35,7 @@ from src.sources.firms import (  # noqa: E402
     IndexVenturesSource,
     KleinerPerkinsSource,
     LSVPSource,
+    NEASource,
     SequoiaSource,
 )
 from src.state import collapse_syndicates  # noqa: E402
@@ -479,6 +480,74 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestNEA:
+    @pytest.fixture
+    def posts(self):
+        return load("nea_index.html", NEASource(),
+                    "https://www.nea.com/blog?type=Read&topic=investment")
+
+    def test_finds_posts(self, posts):
+        assert len(posts) == 5
+        assert all("/blog/" in p.url for p in posts)
+
+    def test_blog_index_and_filters_excluded(self, posts):
+        urls = {p.url for p in posts}
+        assert "https://www.nea.com/blog" not in urls
+        assert not any("topic=" in u for u in urls)
+
+    def test_content_type_label_is_not_a_title(self, posts):
+        """The first heading is often "Blog"; taking it gave posts titled "Blog"."""
+        titles = {p.title for p in posts}
+        assert "Blog" not in titles
+        neolab = next(p for p in posts if "neolab" in p.url)
+        assert neolab.title == "The Neolab Wild West"
+
+    def test_newsletter_series_marker_is_not_a_title(self, posts):
+        """"The Current #16" is a series label, not the post's name."""
+        titles = {p.title for p in posts}
+        assert not any(t.startswith("The Current #") for t in titles)
+        assert "After Assembly Line Finance" in titles
+
+    def test_author_line_does_not_become_the_title(self, posts):
+        for post in posts:
+            assert "Thomas Joshi" not in post.title
+            assert "Read More" not in post.title
+
+    def test_title_kept_when_it_is_the_first_heading(self, posts):
+        """Not every card puts a label first — that path must still work."""
+        titles = {p.title for p in posts}
+        assert (
+            "AI Stack Series: 4 System-Based Shifts Redefining the Engineering Org"
+            in titles
+        )
+
+    def test_midtitle_investment_phrase_is_a_known_recall_gap(self, posts):
+        """"From Algorithms to Atoms, Part II: Doubling Down on CuspAI".
+
+        This IS a funding post, but the title patterns are anchored
+        (^doubling down on) so a mid-title match does not fire and the flag
+        is None. That costs nothing except one classifier call — None means
+        "ask the model", not "drop it" — so the anchors stay. Un-anchoring
+        them would flag any essay containing the phrase.
+
+        Pinned rather than fixed, so the trade-off is visible if someone
+        later wonders why this post is not pre-flagged.
+        """
+        cuspai = next(p for p in posts if "cuspai" in p.url)
+        assert "Doubling Down on" in cuspai.title
+        assert cuspai.likely_investment is None
+
+    def test_topic_filter_does_not_restrict_to_funding_posts(self, posts):
+        """?topic=investment does not mean what the URL implies.
+
+        Most of what comes back is essays and a recurring consumer-data
+        newsletter. Pinned so this source's volume is never mistaken for deal
+        flow — the classifier is what filters here.
+        """
+        undecided = [p for p in posts if p.likely_investment is None]
+        assert len(undecided) >= 3
 
 
 class TestAccel:
