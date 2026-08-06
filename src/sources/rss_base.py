@@ -118,6 +118,12 @@ class WordPressSource(BaseSource):
                 link = canonicalize_url(item.get("link", ""))
                 if not link or link in seen:
                     continue
+                # Same gate the HTML and RSS paths apply. Without it
+                # post_url_pattern and exclude_url_patterns are silently dead
+                # on this path, and WordPress will hand back category archives
+                # and other non-posts alongside real ones.
+                if not self.is_post_url(link):
+                    continue
 
                 title = self.clean_text(
                     (item.get("title") or {}).get("rendered", "")

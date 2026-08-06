@@ -26,6 +26,7 @@ real feed should subclass `RSSSource` instead — feeds are a contract.
 from __future__ import annotations
 
 import logging
+import html
 import re
 import time
 from abc import ABC, abstractmethod
@@ -482,9 +483,17 @@ class BaseSource(ABC):
 
     @staticmethod
     def clean_text(text: str) -> str:
-        """Collapse whitespace while preserving paragraph breaks."""
+        """Collapse whitespace while preserving paragraph breaks.
+
+        Also decodes HTML entities. The WordPress REST API returns
+        `title.rendered` with entities still encoded, so a title arrives as
+        `&#8220;Know-Your-Candidate&#8221; and Other Talent Truisms` and would
+        reach the email that way. feedparser already decodes them, so this
+        matters for the WordPress and HTML paths.
+        """
         if not text:
             return ""
+        text = html.unescape(text)
         text = text.replace(" ", " ")
         text = re.sub(r"[ \t]+", " ", text)
         text = re.sub(r"\n{3,}", "\n\n", text)

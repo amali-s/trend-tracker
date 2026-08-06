@@ -26,6 +26,7 @@ from src.sources.firms import (  # noqa: E402
     ALL_SOURCES,
     A16ZSource,
     AntlerSource,
+    BatterySource,
     ContrarySource,
     GeneralCatalystSource,
     GreylockSource,
@@ -50,6 +51,10 @@ class _StubResponse:
 
     def raise_for_status(self):
         return None
+
+    def json(self):
+        import json as _json
+        return _json.loads(self.text)
 
 
 def load_feed(name: str, source):
@@ -469,6 +474,46 @@ class TestAntler:
         the classifier has to reject it on the body. Documenting the gap."""
         antler_raise = next(p for p in posts if "510-million" in p.url)
         assert antler_raise.likely_investment is True
+
+
+class TestBatteryWordPress:
+    """Battery is read through the WordPress REST API.
+
+    Its /news/ index links only to outbound press coverage, so no pattern over
+    /news/ could ever have matched — the first-party writing is at /blog/.
+    """
+
+    def _posts(self):
+        return load_feed("battery_wp_posts.json", BatterySource())
+
+    def test_discovers_posts_from_wp_api(self):
+        posts = self._posts()
+        assert len(posts) == 4  # 5 records, one is a category archive
+
+    def test_category_archive_excluded(self):
+        assert not any("/category/" in p.url for p in self._posts())
+
+    def test_wp_api_supplies_dates(self):
+        posts = self._posts()
+        assert all(p.published_date is not None for p in posts)
+        newest = max(posts, key=lambda p: p.published_date)
+        assert newest.published_date.date() == datetime(2026, 7, 30).date()
+
+    def test_html_entities_decoded_in_titles(self):
+        """WordPress returns title.rendered with entities still encoded."""
+        titles = {p.title for p in self._posts()}
+        assert not any("&#8216" in t or "&#822" in t for t in titles)
+
+    def test_funding_post_flagged(self):
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug["backing-nomad-data-series-a"].likely_investment is True
+
+    def test_research_essays_left_to_the_classifier(self):
+        """Most of this blog is commentary; the flag must not guess False."""
+        by_slug = {p.url.rsplit("/", 1)[-1]: p for p in self._posts()}
+        assert by_slug[
+            "how-agentic-coding-is-reshaping-the-software-development-lifecycle"
+        ].likely_investment is None
 
 
 class TestSequoiaFeed:

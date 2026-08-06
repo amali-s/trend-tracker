@@ -11,8 +11,9 @@ pages actually served on 2026-08-05:
     General Catalyst   VERIFIED  static HTML (Webflow), ?<hash>_page=N pagination
     Sequoia            VERIFIED  RSS feed; HTML index is client-rendered (2026-08-06)
     Antler             VERIFIED  static HTML; posts at /press-releases/ (2026-08-06)
+    Battery Ventures   VERIFIED  WordPress REST; /news/ is outbound-only (2026-08-06)
 
-The other eight are UNVERIFIED. Their `post_url_pattern` values are inferred from
+The other seven are UNVERIFIED. Their `post_url_pattern` values are inferred from
 the index URL you supplied, which is a reasonable guess for how a CMS lays out
 post paths but is still a guess. Run `python -m src.probe` to check them against
 the live sites, then correct the patterns and move each entry out of the
@@ -329,20 +330,38 @@ class AccelSource(BaseSource):
     investment_title_patterns = COMMON_INVESTMENT_TITLES
 
 
-class BatterySource(BaseSource):
-    """Battery Ventures — news. UNVERIFIED.
+class BatterySource(WordPressSource):
+    """Battery Ventures — blog, via the WordPress REST API. Verified 2026-08-06.
 
-    /news/ on these sites is often a mix of first-party posts and links out to
-    press coverage. The same-host check drops external links automatically, but
-    confirm that leaves anything behind.
+    The /news/ index was the wrong page. It is not "a mix of first-party posts
+    and press links" as guessed -- it is *entirely* outbound: every article
+    link on it points at businesswire.com, cfo.com, forterro.com and the like.
+    The same-host check correctly drops all of them, which is why the source
+    returned zero and why no pattern over /news/ could have fixed it. The
+    /news/page/N links are real, but every page is more of the same.
+
+    Battery's own writing is at /blog/<slug>/, exposed through WordPress at
+    /wp-json/wp/v2/posts. The REST API is preferred over /feed/ because the
+    feed caps at 4 items, which is too shallow to guarantee a full week.
+
+    Honest limitation: this blog is largely research and market commentary
+    ("Measuring AI ROI", "How Agentic Coding Is Reshaping the SDLC") rather
+    than round announcements, and Battery appears to route portfolio funding
+    news to the outbound press coverage on /news/ instead. Expect this source
+    to contribute few investments and many classifier rejections. That is the
+    site's editorial shape, not a broken parser -- do not read a zero here as
+    breakage without re-probing.
     """
 
     name = "Battery Ventures"
     base_url = "https://www.battery.com"
-    index_urls = ["https://www.battery.com/news/"]
-    post_url_pattern = r"battery\.com/(news|blog)/[a-z0-9][a-z0-9-]+$"
-    exclude_url_patterns = [r"/news$", r"/blog$"]
+    index_urls = ["https://www.battery.com/blog"]
+    wp_api_base = "https://www.battery.com/wp-json/wp/v2"
+    post_url_pattern = r"battery\.com/blog/[a-z0-9][a-z0-9-]+$"
+    exclude_url_patterns = [r"/blog$", r"/blog/category/"]
     investment_title_patterns = COMMON_INVESTMENT_TITLES
+    max_pages = 1
+    per_page = 50
 
 
 class NEASource(BaseSource):
@@ -510,13 +529,13 @@ VERIFIED_SOURCES = [
     GeneralCatalystSource,
     SequoiaSource,
     AntlerSource,
+    BatterySource,
 ]
 
 UNVERIFIED_SOURCES = [
     IndexVenturesSource,
     KleinerPerkinsSource,
     AccelSource,
-    BatterySource,
     NEASource,
     LSVPSource,
     BessemerSource,

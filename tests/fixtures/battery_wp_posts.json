@@ -1,0 +1,35 @@
+[
+  {
+    "_comment": "Trimmed skeleton of https://www.battery.com/wp-json/wp/v2/posts as served 2026-08-06. Only the three fields the parser reads are kept (link, title.rendered, date); the real objects carry ~40 more including full rendered post bodies, which are deliberately not reproduced here.",
+    "id": 90101,
+    "date": "2026-07-30T09:00:00",
+    "link": "https://www.battery.com/blog/where-ai-gets-physical-robotics-edge-devices-and-smart-sensors/",
+    "title": { "rendered": "Where AI Gets Physical: Robotics, Edge Devices, and Smart Sensors" }
+  },
+  {
+    "id": 90102,
+    "date": "2026-07-28T11:30:00",
+    "link": "https://www.battery.com/blog/how-agentic-coding-is-reshaping-the-software-development-lifecycle/",
+    "title": { "rendered": "How Agentic Coding Is Reshaping the Software Development Lifecycle" }
+  },
+  {
+    "id": 90103,
+    "date": "2026-07-20T08:15:00",
+    "link": "https://www.battery.com/blog/know-your-candidate-and-other-talent-truisms-in-the-ai-era/",
+    "title": { "rendered": "&#8220;Know-Your-Candidate&#8221; and Other Talent Truisms in the AI Era" }
+  },
+  {
+    "_comment": "A category archive, not a post. WordPress will happily return non-post links in some configurations, and /blog/category/ is excluded.",
+    "id": 90104,
+    "date": "2026-07-18T00:00:00",
+    "link": "https://www.battery.com/blog/category/research/",
+    "title": { "rendered": "Research" }
+  },
+  {
+    "_comment": "A rare funding announcement on this blog. Kept so the source is not asserted to be investment-free.",
+    "id": 90105,
+    "date": "2026-07-17T14:00:00",
+    "link": "https://www.battery.com/blog/backing-nomad-data-series-a/",
+    "title": { "rendered": "Backing Nomad Data&#8217;s $18M Series A" }
+  }
+]
