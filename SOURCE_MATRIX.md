@@ -3,10 +3,14 @@
 Per-site parsing intel for the 14 tracked blogs. This is a living document —
 update it whenever `python -m src.probe` disagrees with what's written here.
 
-**Probed 2026-08-05, re-probed 2026-08-06.** Eight sites are verified against
-the live pages and covered by fixture tests. The other six return posts but
-have not been fixture-tested yet, and all six have known defects recorded
-below. Run the probe before relying on them.
+**Probed 2026-08-05, re-probed 2026-08-06.** All fourteen are verified against
+the live pages and covered by fixture tests. Latest full probe: 522 posts
+across the fourteen, 400 of them carrying a real publication date.
+
+Dates are still missing entirely on Greylock, a16z, General Catalyst, Index
+Ventures and NEA, and on all but ~4 of Designer Fund's cards, because those
+index pages simply do not print one. Those have to come from the detail page,
+which is why the date is a secondary filter and never the "what's new" signal.
 
 Three findings from the 2026-08-06 pass that generalise:
 
@@ -206,22 +210,110 @@ given up — more essays reach the classifier, but every post gets a real date.
 `/k2-space-building-bigger/` and `/k2-space-building-bigger-2/` with different
 tags. Layer 1 passes both; this is a live test case for dedup layer 2.
 
+### Lightspeed — Tier B (WordPress REST)
+
+| | |
+|---|---|
+| API | `https://lsvp.com/wp-json/wp/v2/posts` — 50 posts, all dated |
+| Post URLs | `lsvp.com/stories/<slug>` |
+
+Three paths, two of them traps. The HTML index matches 32 links but its post
+anchors are **empty**, so titles fell back to the slug and lost punctuation —
+`$3.5B` arrived as `3 5B`, which is actively harmful to the amount extractor.
+
+**`/feed/` is a decoy and the dangerous kind:** 10 entries, all dated, parses
+cleanly — but they are `/founder/<name>` and `/company/<slug>` CMS records, not
+stories. A source pointed at it passes the probe and never surfaces a round.
+
+### Designer Fund — Tier A (static HTML, Framer)
+
+| | |
+|---|---|
+| Post URLs | `designerfund.com/blog/<slug>` |
+| Dates | Plain text beside a "New Feature" badge — and **only on ~4 of 27 cards** |
+| Feed | None. `/feed/`, `/rss/`, `/feed.xml` and WP REST all probed; none exists |
+
+The healthiest of the inferred sources: pattern already right, titles already
+clean because Framer puts a real `<h1>` in each card anchor. Note Framer emits
+that `<h1>` twice per card (ssr-variant); harmless, since the first wins.
+
+### Index Ventures — Tier A (static HTML)
+
+| | |
+|---|---|
+| Post URLs | `indexventures.com/perspectives/<slug>` |
+| Dates | None anywhere on the index, and no feed |
+
+Not a client-rendered Vue app — that was the *jobs* side of the domain.
+
+**Title comes from the slug, and must.** Every post anchor is a bare "Read more
+Opens in a new window." with no heading, and the card describes the **founder**,
+not the post: the card for "Simulating Society at Scale: Our Investment in
+Similes' $200M Series B" reads "Joon Sung Park. Multidisciplinary artist. Agent
+architect. Simulator of worlds." The Antler-style card walk is *wrong* here.
+
+Slug titles lose punctuation (`$200M` → `200M`) — fine for the heuristics, not
+fit for display. `fetch_post_detail` must overwrite them with the page `<h1>`.
+
+### Accel — Tier A (static HTML)
+
+| | |
+|---|---|
+| Post URLs | `accel.com/news/<slug>`; `/noteworthies/` matched nothing |
+| Dates | Yes, in the card — 50/50 |
+
+The category filter tabs are themselves `/news/<word>` URLs, so `/news/insights`
+and `/news/podcasts` matched and arrived as posts titled "Insights" and
+"Podcasts". Card anchors carry `<category> <title> <date>` as flat text with no
+heading, so both ends are stripped. No `__NEXT_DATA__` on www.accel.com.
+
+### NEA — Tier A (static HTML)
+
+| | |
+|---|---|
+| Post URLs | `nea.com/blog/<slug>` |
+| Dates | None on the index |
+
+Cards stack several headings and **the first is often a label** — a content type
+("Blog") or a newsletter series marker ("The Current #16") — with the real title
+next. Taking the first heading produced posts titled "Blog" and "The Current #16".
+
+`?topic=investment` does **not** restrict results to funding announcements; most
+of what returns is essays and a recurring consumer-data newsletter. Do not read
+this source's volume as deal flow.
+
+Feed rejected on purpose: `statamic.nea.com` is their headless CMS backend, not
+the published site, and it mixes `/team/` and `/portfolio/` records into 1430
+entries. Host rewriting would work today and supply dates, but it means
+depending on a backend origin and pulling the whole archive weekly.
+
+### Bessemer — Tier A (static HTML)
+
+| | |
+|---|---|
+| Post URLs | `bvp.com/(news\|atlas)/<slug>` |
+| Dates | Yes — but stamped `7.29.26`, not `July 29, 2026` |
+| Volume | ~207, the entire archive on one page |
+
+The site nav links "Funds > Flagship" straight at a real post URL, *before* its
+card. Since `parse_index` takes the first anchor per URL, that post arrived
+titled "Flagship". `extract_title` returns `""` for a headingless nav-shaped
+anchor, which skips it **without** marking the URL seen, so the real card
+reclaims it. Expect a large first `--seed` from this source.
+
 ---
 
 ## Unverified
 
-These six return posts, so the probe reports them OK, but none is fixture-tested
-and every one has a known defect found on 2026-08-06. **Do not trust their
-output yet.**
+Empty. All fourteen are verified and fixture-tested as of 2026-08-06.
 
-| Firm | scrape() | Known defect |
-|---|---|---|
-| Index Ventures | 31 posts, 0 dated | Every title is `"Read more Opens in a new window."` — same bare-CTA anchor problem Antler had. Not a Vue SPA after all; static HTML works. |
-| Accel | 52 posts, 0 dated | Nav leaking in as posts (`Insights`, `Podcasts`), and card chrome in titles: `"Portfolio News Cyera + Oasis: ... July 2..."`. Pattern is too broad and the title needs the card treatment. Dates are present in the card text. |
-| NEA | 14 posts, 0 dated | Nav leaking (`Blog`); much of the output is `The Current #N`, a newsletter series rather than announcements. Feed is on `statamic.nea.com` (different host) and mixes `/team/` + `/portfolio/`, so it is unusable without host rewriting. `?topic=investment` filtering appears not to be applied. |
-| Lightspeed | 32 posts, 0 dated | Titles are slug-derived and lose punctuation: `"Lightspeed Announces Lead Investment In Anthropics 3 5B Series E Finan"`. **The feed is a decoy** — `/feed/` returns `/founder/` and `/company/` records, not stories. Fix the HTML title extraction. |
-| Bessemer | 207 posts, 0 dated | 207 is the whole archive plus nav (`Flagship`). Needs scoping and a date source. |
-| Designer Fund | 27 posts, 0 dated | Titles are clean — the healthiest of the six. Needs a date source and a fixture test. No feed found. |
+`UNVERIFIED_SOURCES` is kept in `firms.py` only so a newly added source has
+somewhere to sit until it is probed.
+
+This does not mean the parsers are permanently correct. They are marketing sites
+that redesign without notice, and a fixture test proves the parser handles the
+page *as it was on 2026-08-06*. `python -m src.probe` is the check that matters —
+re-run it whenever a source starts returning zero.
 
 ---
 
