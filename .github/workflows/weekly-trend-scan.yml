@@ -1,0 +1,94 @@
+name: Weekly Trend Scan
+
+# Runs Sunday morning over the Sunday–Saturday week that just closed, sends the
+# digest, and commits the updated state files back to the repo.
+on:
+  schedule:
+    # Sunday 13:00 UTC = 8am CDT / 7am CST. GitHub cron is UTC-only with no DST
+    # awareness, so this drifts by an hour across the year — harmless weekly.
+    - cron: '0 13 * * 0'
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: 'Record current posts as the baseline and send nothing (run once at setup).'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Run the full pipeline, write a preview, send nothing, commit nothing.'
+        type: boolean
+        default: false
+
+# State lives in the repo (data/*.json). A successful run commits it back, so
+# the job needs write access to contents.
+permissions:
+  contents: write
+
+# A manual dispatch during the scheduled run must not race the commit-back.
+concurrency:
+  group: trend-tracker
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo (with its committed state)
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          # Caching pip is safe: eviction just means a slower install, never
+          # lost state. This is the one place actions/cache is appropriate —
+          # see the note on data/ below.
+          cache: 'pip'
+
+      - name: Install dependencies
+        # This installs the playwright *package* but not its browsers. All 14
+        # sources are tier A/B (static HTML / feeds / WordPress REST) and none
+        # import playwright, so `playwright install chromium` is deliberately
+        # skipped — it would download ~200MB every run for nothing. If a
+        # tier-C (JS-rendered) source is ever added, add that step here.
+        run: pip install -r requirements.txt
+
+      - name: Run the scan
+        env:
+          # Required.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          # Provider A — Gmail SMTP (the README's default).
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          # Provider B — SendGrid. Set these two instead of the Gmail pair and
+          # the emailer picks SendGrid automatically.
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+        # The flag args expand to empty strings on a scheduled run, which then
+        # does the real thing: scrape, extract, send, and (below) commit state.
+        # A send failure exits non-zero here, failing the job — that red run is
+        # the out-of-band signal that the weekly email did not go out.
+        run: |
+          python -m src.main \
+            ${{ github.event.inputs.seed == 'true' && '--seed' || '' }} \
+            ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+
+      - name: Commit updated state back to the repo
+        # Skipped on a preview (--dry-run writes no state) and never reached on
+        # a failed run (a failed send exits non-zero above, so this step's
+        # default success() gate is false). Durable state via commit-back,
+        # NOT actions/cache: GitHub evicts cache entries "not accessed in over
+        # 7 days" (verified against the Actions cache docs on 2026-08-07),
+        # which lands right on this weekly schedule's boundary — a single
+        # eviction would wipe seen_posts.json and resend everything.
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/seen_posts.json data/seen_investments.json data/weekly_history.json
+          if git diff --cached --quiet; then
+            echo "No state changes to commit."
+          else
+            git commit -m "state: trend scan $(date -u +%Y-%m-%d)"
+            git push
+          fi
