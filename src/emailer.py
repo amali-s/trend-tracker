@@ -333,15 +333,97 @@ def _section(title: str, inner: str, muted: bool = False) -> str:
     )
 
 
+def _scan_summary(digest: WeeklyDigest) -> str:
+    """A one-line 'what was scanned' phrase for the empty state.
+
+    An empty week caused by broken scrapers means something different from a
+    genuinely quiet one, so the count distinguishes 'all clear' from 'some
+    sources could not be reached'.
+    """
+    total = len(digest.source_summaries)
+    healthy = total - len(digest.unhealthy_sources)
+    if total == 0:
+        return "The scan completed"
+    noun = "source" if total == 1 else "sources"
+    if healthy == total:
+        return f"All {total} {noun} scanned cleanly"
+    return f"{healthy} of {total} {noun} scanned"
+
+
+def _empty_state(digest: WeeklyDigest) -> str:
+    """The empty-week hero: a calm all-clear, not an error.
+
+    A week with no new rounds is a normal outcome. The email is still sent —
+    that is the whole point, since silence would mean the pipeline broke — so
+    this block reads as proof-of-life: an accent badge, the plain statement
+    that nothing new landed, and how many sources were scanned. If any source
+    could not be reached, a warning strip says so, because that changes what an
+    "empty" week means.
+    """
+    hero_style = (
+        f"font-family:{sage.FONT_SANS};font-size:{sage.SIZE_HERO};"
+        f"font-weight:{sage.WEIGHT_LIGHT};color:{sage.TEXT_PRIMARY};"
+        f"letter-spacing:{sage.TRACKING_HEADING};line-height:1.25;"
+        f"margin:0;text-align:center;"
+    )
+    sub_style = (
+        f"font-family:{sage.FONT_SERIF};font-size:{sage.SIZE_BODY};"
+        f"font-weight:{sage.WEIGHT_LIGHT};color:{sage.TEXT_MUTED};"
+        f"line-height:{sage.LINE_BODY};margin:0;text-align:center;"
+    )
+
+    # The accent badge — a single-cell table so Outlook keeps the fill and
+    # padding (it drops both on inline elements). border-radius is squared by
+    # Outlook's Word engine, same accepted degradation as the cards.
+    badge = _table(
+        f'<tr><td align="center" valign="middle" width="56" height="56" '
+        f'style="width:56px;height:56px;background-color:{sage.ACCENT};'
+        f'border-radius:28px;font-family:{sage.FONT_SANS};font-size:26px;'
+        f'line-height:56px;color:{sage.TEXT_PRIMARY};text-align:center;">'
+        f"&#10003;</td></tr>",
+        attrs='align="center"',
+    )
+
+    warn = ""
+    unhealthy = len(digest.unhealthy_sources)
+    if unhealthy:
+        noun = "source" if unhealthy == 1 else "sources"
+        warn = (
+            f'<tr><td style="padding-top:{sage.SPACE_MD};">'
+            f'<div style="background-color:{sage.WARN_BG};border:1px solid '
+            f"{sage.WARN_BORDER};border-radius:4px;padding:{sage.SPACE_SM} "
+            f"{sage.SPACE_MD};font-family:{sage.FONT_SANS};"
+            f"font-size:{sage.SIZE_SMALL};color:{sage.WARN_TEXT};"
+            f'line-height:1.4;text-align:center;">&#9888; {unhealthy} {noun} '
+            f"could not be scanned cleanly &mdash; a quiet week may be partly "
+            f"that. See Sources below.</div></td></tr>"
+        )
+
+    inner = _table(
+        f'<tr><td align="center" style="padding-bottom:{sage.SPACE_MD};">{badge}</td></tr>'
+        f'<tr><td style="{hero_style}padding-bottom:{sage.SPACE_SM};">'
+        f"No new investments this week</td></tr>"
+        f'<tr><td style="{sub_style}">{_scan_summary(digest)} &mdash; nothing '
+        f"new cleared the classifier.</td></tr>"
+        f"{warn}",
+        style="width:100%;",
+    )
+
+    return (
+        f'<tr><td style="padding:{sage.SPACE_XL} 0;">'
+        f'<div style="background-color:{sage.LAYER_1};border:{sage.BORDER_STYLE};'
+        f"border-radius:{sage.RADIUS};padding:{sage.SPACE_XL} {sage.SPACE_LG};"
+        f'text-align:center;">{inner}</div></td></tr>'
+    )
+
+
 def _headline(digest: WeeklyDigest) -> str:
+    # The empty week is rendered by _empty_state; render_digest branches before
+    # this is ever reached with no investments.
     h = digest.headline
-    if digest.is_empty:
-        hero = "No new investments this week"
-        sub = "Every source was scanned; nothing new cleared the classifier."
-    else:
-        undis = f" &middot; {h.undisclosed_count} undisclosed" if h.undisclosed_count else ""
-        hero = f"{format_usd(h.total_usd)} across {h.deal_count} deals"
-        sub = f"{h.firms_active} firms active{undis}"
+    undis = f" &middot; {h.undisclosed_count} undisclosed" if h.undisclosed_count else ""
+    hero = f"{format_usd(h.total_usd)} across {h.deal_count} deals"
+    sub = f"{h.firms_active} firms active{undis}"
 
     hero_style = (
         f"font-family:{sage.FONT_SANS};font-size:{sage.SIZE_HERO};"
@@ -370,26 +452,37 @@ def _headline(digest: WeeklyDigest) -> str:
 
 def render_digest(digest: WeeklyDigest) -> str:
     """The full HTML email."""
-    cards = "".join(_card(i) for i in _sorted_investments(digest.investments))
-    cards_block = (
-        _section("New investments", _table(cards, style="width:100%;"))
-        if cards else ""
-    )
+    if digest.is_empty:
+        # A quiet week: the all-clear hero, then the source table (which is the
+        # proof of what ran) and the footer. The sector/stage/mover blocks are
+        # all "where this week's money went" — nothing went anywhere, so they
+        # are dropped rather than shown as a page of zeros.
+        body = _empty_state(digest) + _source_footer(digest) + _footer_note()
+        preheader = "No new investments this week"
+    else:
+        cards = "".join(_card(i) for i in _sorted_investments(digest.investments))
+        cards_block = (
+            _section("New investments", _table(cards, style="width:100%;"))
+            if cards else ""
+        )
+        body = (
+            _headline(digest)
+            + _sector_table(digest)
+            + _stage_mix(digest)
+            + _movers(digest)
+            + cards_block
+            + _source_footer(digest)
+            + _footer_note()
+        )
+        preheader = (
+            f"{format_usd(digest.headline.total_usd)} across "
+            f"{digest.headline.deal_count} deals"
+        )
 
-    preheader = _esc(
-        f"{format_usd(digest.headline.total_usd)} across "
-        f"{digest.headline.deal_count} deals"
-        if not digest.is_empty else "No new investments this week"
-    )
+    preheader = _esc(preheader)
 
     inner = _table(
-        _headline(digest)
-        + _sector_table(digest)
-        + _stage_mix(digest)
-        + _movers(digest)
-        + cards_block
-        + _source_footer(digest)
-        + _footer_note(),
+        body,
         style=f"width:{sage.CONTAINER_WIDTH}px;max-width:100%;",
         attrs=f'width="{sage.CONTAINER_WIDTH}"',
     )
@@ -441,7 +534,11 @@ def render_text(digest: WeeklyDigest) -> str:
     lines = [digest.subject, "=" * len(digest.subject), ""]
     h = digest.headline
     if digest.is_empty:
-        lines += ["No new investments this week.", ""]
+        lines += [
+            "No new investments this week.",
+            f"{_scan_summary(digest)} — nothing new cleared the classifier.",
+            "",
+        ]
     else:
         lines.append(f"{format_usd(h.total_usd)} across {h.deal_count} deals")
         extra = f", {h.undisclosed_count} undisclosed" if h.undisclosed_count else ""

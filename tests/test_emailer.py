@@ -249,6 +249,37 @@ class TestEmptyWeek:
     def test_silence_means_breakage_note_present(self):
         assert "silence means" in html_of().lower()
 
+    def test_scan_summary_reports_all_clean(self):
+        h = html_of([], sources=[
+            SourceSummary(source="Contrary", posts_found=3),
+            SourceSummary(source="NEA", posts_found=5),
+        ])
+        assert "All 2 sources scanned cleanly" in h
+        assert "could not be scanned cleanly" not in h  # no warning strip
+
+    def test_scan_summary_flags_unhealthy_sources(self):
+        h = html_of([], sources=[
+            SourceSummary(source="Contrary", posts_found=3),
+            SourceSummary(source="NEA", error="timeout"),
+        ])
+        assert "1 of 2 sources scanned" in h
+        assert "could not be scanned cleanly" in h
+        assert sage.WARN_BG in h  # the amber warning strip is present
+
+    def test_empty_state_uses_the_card_background_not_a_bare_hero(self):
+        # The empty state is a designed block, not two lines of text — it sits
+        # on the card layer with the accent badge.
+        h = html_of([], sources=[SourceSummary(source="Contrary", posts_found=3)])
+        assert sage.LAYER_1 in h
+        assert sage.ACCENT in h
+
+    def test_this_week_only_blocks_are_dropped_when_empty(self):
+        # Sector / stage / mover sections are "where this week's money went" —
+        # meaningless with zero deals, so they must not render as zeros.
+        h = html_of([], sources=[SourceSummary(source="Contrary", posts_found=3)])
+        assert "Where the money went" not in h
+        assert "Stage mix" not in h
+
 
 # ---------------------------------------------------------------------------
 # Source footer health
