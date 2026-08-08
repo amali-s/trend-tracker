@@ -85,7 +85,16 @@ jobs:
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git add data/seen_posts.json data/seen_investments.json data/weekly_history.json
+          # Add only the state files that exist. A --seed run has not yet
+          # created seen_investments.json (that happens on the first real
+          # send), and `git add` of a missing path exits non-zero and stages
+          # nothing — which would fail this step and silently drop the
+          # baseline. Kept as an explicit list, not `git add data/`, because
+          # the regenerable extraction_cache.json also lives in data/ and must
+          # stay uncommitted.
+          for f in data/seen_posts.json data/seen_investments.json data/weekly_history.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "No state changes to commit."
           else
