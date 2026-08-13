@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trend tracker</title>
+  <meta name="description" content="A weekly summary of where the top VC firms are investing." />
+
+  <!-- Fonts from the Figma design: Rethink Sans, Spectral, and a mono for the code snippet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500&family=Spectral:wght@300;400&family=Fira+Code:wght@300&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ---- Design tokens (mapped from the Figma CSS variables) ---- */
+    :root {
+      --background: #ede6de;
+      --layer-1: #fff8f0;
+      --text-primary: #1b2323;
+      --text-secondary: #59554b;
+      --text-disabled: #adaba5;
+      --active-state-secondary: #bf9a49;
+      --tag-bg: #ede8a1;
+
+      --font-heading: "Rethink Sans", system-ui, sans-serif;
+      --font-body: "Spectral", Georgia, serif;
+      --font-mono: "Fira Code", ui-monospace, monospace;
+
+      /* Layout: the Figma frame indents content ~218px from the left on desktop */
+      --page-indent: 218px;
+      --content-max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background: var(--background);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 0 64px;
+    }
+
+    /* ---- Header ---- */
+    .page-header {
+      border-bottom: 1px solid var(--active-state-secondary);
+      padding: 8px 16px 16px var(--page-indent);
+      margin-bottom: 0;
+    }
+    .page-header h1 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 36px;
+      line-height: 1.02;
+      margin: 0 0 16px;
+      color: var(--text-primary);
+    }
+    .page-header .subtitle {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* ---- Body wrapper: content indented to align with header text ---- */
+    .content {
+      padding-left: calc(var(--page-indent) - 34px); /* 184px in the design */
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 32px;
+    }
+    .section { padding-left: 32px; }
+
+    .section-heading {
+      font-family: var(--font-heading);
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 1.02;
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+    .section-sub {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .section-block { padding: 8px 16px 8px 0; }
+
+    /* ---- "What it does" cards ---- */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: stretch;
+      margin-top: 24px;
+      max-width: var(--content-max);
+    }
+    .card {
+      background: var(--layer-1);
+      border: 0.5px solid var(--text-disabled);
+      border-radius: 8px;
+      width: 338px;
+      min-height: 220px;
+      padding: 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card-inner { padding: 0 16px 8px 8px; display: flex; flex-direction: column; gap: 16px; }
+    .card-header {
+      border-bottom: 0.5px solid var(--text-disabled);
+      padding-bottom: 16px;
+    }
+    .card-header h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: -0.4px;
+      line-height: normal;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .card-body p {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* ---- "How it works" flow ---- */
+    .flow {
+      background: var(--layer-1);
+      border: 1px solid var(--text-disabled);
+      border-radius: 8px;
+      padding: 38px 32px;
+      margin-top: 24px;
+      max-width: var(--content-max);
+    }
+    .flow-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 32px 47px;
+      padding: 0 24px;
+    }
+    .flow-step {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 82px;
+    }
+    .flow-arrow {
+      flex-shrink: 0;
+      width: 22px;
+      display: flex;
+      align-items: center;
+      color: var(--text-primary);
+    }
+    .flow-arrow svg { display: block; width: 22px; height: auto; }
+
+    /* ---- Prose sections ---- */
+    .prose { max-width: var(--content-max); }
+    .prose p {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin: 0 0 12px;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose code {
+      font-family: var(--font-mono);
+      font-weight: 300;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    /* ---- Sector trends tags ---- */
+    .tags-box {
+      background: var(--layer-1);
+      border: 1px solid var(--text-disabled);
+      border-radius: 8px;
+      padding: 23px 31px;
+      margin-top: 24px;
+      max-width: var(--content-max);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+    .tag {
+      background: var(--tag-bg);
+      border-radius: 12px;
+      padding: 4px 8px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: -0.32px;
+      line-height: 1.4;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ---- Responsive: collapse the big left indent on narrow screens ---- */
+    @media (max-width: 1140px) {
+      :root { --page-indent: 32px; }
+      .content { padding-left: 24px; padding-right: 24px; }
+      .section { padding-left: 0; }
+      .cards, .flow, .tags-box, .prose { max-width: 100%; }
+    }
+    @media (max-width: 720px) {
+      body { padding: 24px 0 48px; }
+      .page-header { padding: 8px 20px 16px; }
+      .page-header h1 { font-size: 30px; }
+      .card { width: 100%; }
+      .flow-inner { flex-direction: column; gap: 8px; padding: 0; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="page-header">
+    <h1>Trend tracker</h1>
+    <p class="subtitle">A weekly summary of where the top VC firms are investing.</p>
+  </header>
+
+  <div class="content">
+    <!-- What it does -->
+    <section class="section">
+      <div class="section-block">
+        <h2 class="section-heading">What it does</h2>
+        <p class="section-sub">The email answers 3 questions for you.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-header"><h3>Who is getting funded?</h3></div>
+            <div class="card-body">
+              <p>Each investment gets a card with the company name, a plain description of what it does, the amount and stage, and a link to its site.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-header"><h3>What sectors are getting investments?</h3></div>
+            <div class="card-body">
+              <p>A sector rollup sits above the cards — total capital deployed, deal count, and a per-sector breakdown compared against the trailing four-week average, so a genuine shift is distinguishable from a noisy week.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-header"><h3>Is there a pattern?</h3></div>
+            <div class="card-body">
+              <p>One email will track funding across 14 different blogs in order to see if and what patterns are forming on companies getting traction.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section">
+      <div class="section-block">
+        <h2 class="section-heading">How it works</h2>
+        <p class="section-sub">Summarizes 14 different newsletters and blogs</p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-inner">
+          <div class="flow-step" style="width:136px;">Collects 14 newsletters and blogs</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:136px;">Determines what are new posts from the week before</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:119px;">Reads the all new posts</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:157px;">Extracts important information using Claude API</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:103px;">Dedup</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:172px;">Organizes and finds trends</div>
+          <span class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 22 12" xmlns="http://www.w3.org/2000/svg" fill="none">
+              <path d="M0 6h20M15 1l5 5-5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <div class="flow-step" style="width:91px;">Email sent</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Detecting what's new -->
+    <section class="section">
+      <div class="section-block prose">
+        <h2 class="section-heading">Detecting what's new</h2>
+        <p>The agent keeps a memory of every post URL it has ever seen in <code>data/seen_posts.json</code>. Each run scrapes the 14 index pages, compares against that memory, and only the URLs it has never seen continue down the pipeline.</p>
+        <p>Publication dates are deliberately not the primary signal. Many of these blogs show no date on the index page, some show relative dates, and posts get backdated or quietly edited. The URL diff is reliable where dates aren't. A parsed date, when available, only serves as a sanity filter to reject posts older than ~60 days.</p>
+      </div>
+    </section>
+
+    <!-- Reading each post -->
+    <section class="section">
+      <div class="section-block prose">
+        <h2 class="section-heading">Reading each post</h2>
+        <p>New posts are fetched and parsed for their full body, then passed through a classifier: is this actually announcing a specific company raising a specific round? Most posts on these blogs aren't — they're essays, market maps, podcast episodes, partner announcements. Those are dropped before extraction.</p>
+        <p>What survives goes through a regex pass for the amount and stage, then a Claude call for the company description, canonical URL, sector, and co-investors. The two passes cross-check each other; disagreement lowers the confidence flag rather than silently picking one.</p>
+        <p>The extraction prompt specifically guards against the valuation trap — a post reading "raised $30M Series B at a $300M valuation" must report $30M, not $300M.</p>
+      </div>
+    </section>
+
+    <!-- Sector trends -->
+    <section class="section">
+      <div class="section-block prose">
+        <h2 class="section-heading">Sector trends</h2>
+        <p>Every investment is assigned exactly one sector from a fixed list. This is the whole reason the trend view works: a free-form label would drift between weeks and nothing would be comparable.</p>
+      </div>
+
+      <div class="tags-box">
+        <div class="tags">
+          <span class="tag">AI Infrastructure</span>
+          <span class="tag">AI Applications</span>
+          <span class="tag">Developer Tools</span>
+          <span class="tag">Fintech</span>
+          <span class="tag">Healthcare &amp; Bio</span>
+          <span class="tag">Enterprise SaaS</span>
+          <span class="tag">Security</span>
+          <span class="tag">Consumer</span>
+          <span class="tag">Robotics &amp; Hardware</span>
+          <span class="tag">Climate &amp; Energy</span>
+          <span class="tag">Defense &amp; Gov</span>
+          <span class="tag">Commerce &amp; Retail</span>
+          <span class="tag">Data &amp; Analytics</span>
+          <span class="tag">Crypto</span>
+          <span class="tag">Other</span>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
