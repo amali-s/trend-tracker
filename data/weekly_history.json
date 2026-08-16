@@ -4,5 +4,120 @@
     "deals": 0,
     "investments": [],
     "total_usd": 0
+  },
+  "2026-08-15": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 2,
+        "total_usd": 400000000,
+        "undisclosed": 1
+      },
+      "AI Infrastructure": {
+        "deals": 1,
+        "total_usd": 1100000000,
+        "undisclosed": 0
+      },
+      "Healthcare & Bio": {
+        "deals": 1,
+        "total_usd": 50000000,
+        "undisclosed": 0
+      }
+    },
+    "deals": 4,
+    "investments": [
+      {
+        "co_investors": [
+          "Menlo Ventures",
+          "Scaleup Europe Fund (EQT)",
+          "Balderton Capital",
+          "Carmignac",
+          "Kaszek Ventures",
+          "LTS Growth",
+          "Tencent",
+          "World Innovation Lab",
+          "Regent",
+          "Accel",
+          "CapitalG",
+          "DST Global",
+          "Evantic Capital",
+          "HubSpot Ventures",
+          "Salesforce Ventures"
+        ],
+        "company_description": "Lovable operates a software creation platform that lets people build applications without extensive technical training, using AI to generate apps from natural language. It is headquartered in Stockholm.",
+        "company_name": "Lovable",
+        "company_url": "https://lovable.dev",
+        "confidence": "high",
+        "funding_amount_raw": "$400 million",
+        "funding_amount_usd": 400000000,
+        "notes": "",
+        "round_stage": "Series C",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.antler.co/press-releases/antler-portfolio-company-lovable-raises-400m-series-c-at-13-3b-valuation"
+        ],
+        "sub_sector": "AI app builder / vibe coding",
+        "vc_firms": [
+          "Antler"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "River AI is a full-stack AI research company building open-weight models whose weights are freely downloadable. Its first product, the River API, lets developers fine-tune open-weight models on their own data without needing a dedicated AI team or large-lab infrastructure.",
+        "company_name": "River AI",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$1.1 billion",
+        "funding_amount_usd": 1100000000,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.generalcatalyst.com/stories/own-your-ai-experience"
+        ],
+        "sub_sector": "Open-weight foundation models and fine-tuning",
+        "vc_firms": [
+          "General Catalyst"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Vals AI builds independent benchmarks and evaluations that measure how well large language models and AI systems perform on real, domain-specific professional tasks such as legal, finance, and tax work. It gives enterprises data to compare models and AI products before deploying them.",
+        "company_name": "Vals AI",
+        "company_url": "https://www.vals.ai",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-vals"
+        ],
+        "sub_sector": "AI model evaluation and benchmarking",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Flagler Health builds AI software for musculoskeletal care clinics that integrates with existing electronic medical records to automate patient triage, care management, patient outreach and call handling, and revenue cycle tasks like prior authorization, coding, and billing. It is used by thousands of providers across more than 36 states.",
+        "company_name": "Flagler Health",
+        "company_url": "https://www.flaglerhealth.ai",
+        "confidence": "high",
+        "funding_amount_raw": "$50 million",
+        "funding_amount_usd": 50000000,
+        "notes": "",
+        "round_stage": "Series B",
+        "sector": "Healthcare & Bio",
+        "source_urls": [
+          "https://www.bvp.com/news/flagler-health-the-ai-native-solution-for-musculoskeletal-care"
+        ],
+        "sub_sector": "AI clinical and administrative workflow software for musculoskeletal care",
+        "vc_firms": [
+          "Bessemer"
+        ]
+      }
+    ],
+    "total_usd": 1550000000
   }
 }

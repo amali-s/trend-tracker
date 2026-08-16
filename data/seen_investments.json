@@ -1,1 +1,42 @@
-{}
+{
+  "flagler health|series b": {
+    "company_name": "Flagler Health",
+    "first_seen": "2026-08-16T13:31:51.642525",
+    "funding_amount_usd": 50000000,
+    "last_seen": "2026-08-16T13:31:51.642525",
+    "round_stage": "Series B",
+    "vc_firms": [
+      "Bessemer"
+    ]
+  },
+  "lovable|series c": {
+    "company_name": "Lovable",
+    "first_seen": "2026-08-16T13:31:51.642525",
+    "funding_amount_usd": 400000000,
+    "last_seen": "2026-08-16T13:31:51.642525",
+    "round_stage": "Series C",
+    "vc_firms": [
+      "Antler"
+    ]
+  },
+  "river ai|unknown": {
+    "company_name": "River AI",
+    "first_seen": "2026-08-16T13:31:51.642525",
+    "funding_amount_usd": 1100000000,
+    "last_seen": "2026-08-16T13:31:51.642525",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "General Catalyst"
+    ]
+  },
+  "vals ai|unknown": {
+    "company_name": "Vals AI",
+    "first_seen": "2026-08-16T13:31:51.642525",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-16T13:31:51.642525",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "a16z"
+    ]
+  }
+}
