@@ -119,5 +119,201 @@
       }
     ],
     "total_usd": 1550000000
+  },
+  "2026-08-22": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 4,
+        "total_usd": 20000000,
+        "undisclosed": 3
+      },
+      "AI Infrastructure": {
+        "deals": 1,
+        "total_usd": 300000000,
+        "undisclosed": 0
+      },
+      "Defense & Gov": {
+        "deals": 1,
+        "total_usd": 25000000,
+        "undisclosed": 0
+      },
+      "Healthcare & Bio": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Security": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 8,
+    "investments": [
+      {
+        "co_investors": [
+          "Lachy Groom",
+          "Acrew Capital"
+        ],
+        "company_description": "FSH Technologies builds custom software for city and county governments, delivered in weeks rather than years on a shared underlying platform. It also operates a proprietary system to track and respond to government software RFPs at scale.",
+        "company_name": "FSH Technologies",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$25 million",
+        "funding_amount_usd": 25000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Defense & Gov",
+        "source_urls": [
+          "https://contrary.com/blog/investing-in-fsh"
+        ],
+        "sub_sector": "GovTech / state and local government software",
+        "vc_firms": [
+          "Contrary"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Etched designs purpose-built inference chips and full rack-scale systems\u2014including networking, switching, cooling, power, and software\u2014optimized for running transformer-based AI models efficiently. It aims to maximize tokens produced per dollar and per watt for AI inference workloads.",
+        "company_name": "Etched",
+        "company_url": "https://www.etched.com",
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $1 billion; verify against the source.",
+        "round_stage": "Unknown",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.kleinerperkins.com/perspectives/etched"
+        ],
+        "sub_sector": "AI inference chips and rack-scale systems",
+        "vc_firms": [
+          "Kleiner Perkins"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Preview is an AI-native video creation and production platform for professional creators, combining a video timeline with an infinite canvas in a collaborative multiplayer workspace. It lets teams generate footage with any AI model while tracking characters, locations, props and the provenance of every asset.",
+        "company_name": "Preview",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $100M; verify against the source.",
+        "round_stage": "Seed",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-preview-lights-inference-action"
+        ],
+        "sub_sector": "Generative video creation and production tooling",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Corma is training a foundation model specialized for defensive cybersecurity, using large-scale reinforcement learning in simulated enterprise network environments. Its model powers an agentic 'Security Workforce' that detects, contains and remediates attacks across enterprise security tools.",
+        "company_name": "Corma",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "Security",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-corma-closing-the-defensive-cybersecurity-gap"
+        ],
+        "sub_sector": "AI foundation model for defensive cybersecurity",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [
+          "Jane Street",
+          "Andreessen Horowitz",
+          "Diffusion",
+          "SK Hynix"
+        ],
+        "company_description": "Etched designs custom silicon and cluster-scale systems purpose-built for AI inference, specializing in running transformer and other frontier model architectures. Its first-generation chip was taped out at TSMC and is shipping to early customers in 2026.",
+        "company_name": "Etched",
+        "company_url": "https://www.etched.com",
+        "confidence": "high",
+        "funding_amount_raw": "$300 Million",
+        "funding_amount_usd": 300000000,
+        "notes": "",
+        "round_stage": "Series C",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-etched-building-the-inference-machine"
+        ],
+        "sub_sector": "Custom inference silicon",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Bunkerhill Health builds a platform, Carebricks, that lets hospitals and health systems create and deploy AI agents for clinical, operational, and administrative tasks using data the hospital already generates. It originally focused on taking research AI models through validation and FDA clearance into bedside use.",
+        "company_name": "Bunkerhill Health",
+        "company_url": "https://www.bunkerhillhealth.com",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "Healthcare & Bio",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-bunkerhill-health-ai-agents-that-improve-patient-outcomes"
+        ],
+        "sub_sector": "Clinical AI agents for health systems",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Sable builds an AI employee called 'Aidan' that runs customer calls on its own, using voice, video, real-time vision and live browser interaction to demonstrate and explain a company's product to prospects.",
+        "company_name": "Sable",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series I",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-sable-closing-the-diffusion-gap"
+        ],
+        "sub_sector": "AI sales agents / customer-facing AI employees",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [
+          "Tribeca Venture Partners",
+          "Aramco Ventures"
+        ],
+        "company_description": "Twin1 builds a governed context layer for enterprises by giving each knowledge worker a digital 'Twin' \u2014 a model of their expertise and judgment that answers colleagues' questions inside Slack, Teams, and email while respecting their privacy and permission preferences. Networked together, these Twins let people and AI agents query organizational knowledge without bypassing its owners.",
+        "company_name": "Twin1",
+        "company_url": "https://www.twin1.ai",
+        "confidence": "high",
+        "funding_amount_raw": "$20 million",
+        "funding_amount_usd": 20000000,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.bvp.com/news/building-the-governed-context-layer-for-enterprise-ai-with-twin1"
+        ],
+        "sub_sector": "Enterprise knowledge management and AI governance",
+        "vc_firms": [
+          "Bessemer"
+        ]
+      }
+    ],
+    "total_usd": 345000000
   }
 }

@@ -1,4 +1,44 @@
 {
+  "bunkerhill health|seed": {
+    "company_name": "Bunkerhill Health",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
+  "corma|seed": {
+    "company_name": "Corma",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
+  "etched|series c": {
+    "company_name": "Etched",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": 300000000,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Series C",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
+  "etched|unknown": {
+    "company_name": "Etched",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Kleiner Perkins"
+    ]
+  },
   "flagler health|series b": {
     "company_name": "Flagler Health",
     "first_seen": "2026-08-16T13:31:51.642525",
@@ -7,6 +47,16 @@
     "round_stage": "Series B",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "fsh technologies|series a": {
+    "company_name": "FSH Technologies",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": 25000000,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Contrary"
     ]
   },
   "lovable|series c": {
@@ -19,6 +69,16 @@
       "Antler"
     ]
   },
+  "preview|seed": {
+    "company_name": "Preview",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
   "river ai|unknown": {
     "company_name": "River AI",
     "first_seen": "2026-08-16T13:31:51.642525",
@@ -27,6 +87,26 @@
     "round_stage": "Unknown",
     "vc_firms": [
       "General Catalyst"
+    ]
+  },
+  "sable|series i": {
+    "company_name": "Sable",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Series I",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
+  "twin1|seed": {
+    "company_name": "Twin1",
+    "first_seen": "2026-08-23T13:32:59.137561",
+    "funding_amount_usd": 20000000,
+    "last_seen": "2026-08-23T13:32:59.137561",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Bessemer"
     ]
   },
   "vals ai|unknown": {
