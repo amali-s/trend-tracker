@@ -59,6 +59,16 @@
       "Contrary"
     ]
   },
+  "keenable|seed": {
+    "company_name": "Keenable",
+    "first_seen": "2026-08-30T17:13:19.628865",
+    "funding_amount_usd": null,
+    "last_seen": "2026-08-30T17:13:19.628865",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Accel"
+    ]
+  },
   "lovable|series c": {
     "company_name": "Lovable",
     "first_seen": "2026-08-16T13:31:51.642525",

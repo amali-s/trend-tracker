@@ -315,5 +315,39 @@
       }
     ],
     "total_usd": 345000000
+  },
+  "2026-08-29": {
+    "by_sector": {
+      "AI Infrastructure": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 1,
+    "investments": [
+      {
+        "co_investors": [
+          "Conviction"
+        ],
+        "company_description": "Keenable is building a web index and search infrastructure designed specifically for AI agents rather than human users. It offers a web-query language and a real-time search API that let agents retrieve and reason over thousands of live sources quickly and cheaply.",
+        "company_name": "Keenable",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.accel.com/news/our-seed-investment-in-keenable-search-infrastructure-for-better-ai-agents"
+        ],
+        "sub_sector": "Agentic search infrastructure / web indexing",
+        "vc_firms": [
+          "Accel"
+        ]
+      }
+    ],
+    "total_usd": 0
   }
 }
