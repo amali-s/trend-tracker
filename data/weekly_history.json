@@ -349,5 +349,75 @@
       }
     ],
     "total_usd": 0
+  },
+  "2026-09-05": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 3,
+        "total_usd": 550000000,
+        "undisclosed": 2
+      }
+    },
+    "deals": 3,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "Gimlet Labs operates a multi-silicon inference cloud that runs AI inference workloads across mixed hardware \u2014 GPUs, CPUs, and purpose-built accelerators \u2014 using a compiler and runtime that split and route work to the best-suited processor. Developers access it through a single inference API, and the company also handles data center-level differences in networking, power, and cooling.",
+        "company_name": "Gimlet Labs",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $1; verify against the source.",
+        "round_stage": "Growth",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-gimlet"
+        ],
+        "sub_sector": "",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Atira builds an AI system that helps industrial manufacturers respond to complex sales inquiries by reading unstructured customer specifications, configuring suitable product solutions, and generating the required quote and compliance documentation. It connects to existing CRM and ERP systems to run the commercial response process end to end.",
+        "company_name": "Atira",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $128B; verify against the source.",
+        "round_stage": "Seed",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.accel.com/news/our-seed-investment-in-atira-the-ai-orchestration-layer-for-industrial-sales-engineering"
+        ],
+        "sub_sector": "AI for industrial sales engineering / manufacturing quoting",
+        "vc_firms": [
+          "Accel"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Wonderful builds an AI operating system for large enterprises, providing a shared layer that coordinates AI agents, workflows, applications, enterprise context, and integrations. It is model-agnostic and deploys with enterprise customers across many countries.",
+        "company_name": "Wonderful",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$550M",
+        "funding_amount_usd": 550000000,
+        "notes": "",
+        "round_stage": "Series C",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.bvp.com/news/the-trailblazer-in-enterprise-ai-wonderfuls-550m-series-c"
+        ],
+        "sub_sector": "Enterprise agentic AI platform",
+        "vc_firms": [
+          "Bessemer"
+        ]
+      }
+    ],
+    "total_usd": 550000000
   }
 }
