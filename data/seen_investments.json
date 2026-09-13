@@ -1,4 +1,14 @@
 {
+  "antioch|series a": {
+    "company_name": "Antioch",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Greylock"
+    ]
+  },
   "atira|seed": {
     "company_name": "Atira",
     "first_seen": "2026-09-06T16:00:40.231312",
@@ -19,6 +29,17 @@
       "Sequoia"
     ]
   },
+  "cognition|growth": {
+    "company_name": "Cognition",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Growth",
+    "vc_firms": [
+      "a16z",
+      "Bessemer"
+    ]
+  },
   "corma|seed": {
     "company_name": "Corma",
     "first_seen": "2026-08-23T13:32:59.137561",
@@ -27,6 +48,16 @@
     "round_stage": "Seed",
     "vc_firms": [
       "Sequoia"
+    ]
+  },
+  "cylake|unknown": {
+    "company_name": "Cylake",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": 245000000,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Lightspeed"
     ]
   },
   "etched|series c": {
@@ -79,6 +110,26 @@
       "a16z"
     ]
   },
+  "harvey|series h": {
+    "company_name": "Harvey",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series H",
+    "vc_firms": [
+      "Lightspeed"
+    ]
+  },
+  "highstock|series a": {
+    "company_name": "Highstock",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": 30000000,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "a16z"
+    ]
+  },
   "keenable|seed": {
     "company_name": "Keenable",
     "first_seen": "2026-08-30T17:13:19.628865",
@@ -89,6 +140,16 @@
       "Accel"
     ]
   },
+  "lightfield|series a": {
+    "company_name": "Lightfield",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": 47000000,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "a16z"
+    ]
+  },
   "lovable|series c": {
     "company_name": "Lovable",
     "first_seen": "2026-08-16T13:31:51.642525",
@@ -97,6 +158,36 @@
     "round_stage": "Series C",
     "vc_firms": [
       "Antler"
+    ]
+  },
+  "mistral ai|series d": {
+    "company_name": "Mistral AI",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": 3500000000,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series D",
+    "vc_firms": [
+      "Lightspeed"
+    ]
+  },
+  "mistral|unknown": {
+    "company_name": "Mistral",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Index Ventures"
+    ]
+  },
+  "neo|series a": {
+    "company_name": "Neo",
+    "first_seen": "2026-09-13T16:52:33.899007",
+    "funding_amount_usd": 100000000,
+    "last_seen": "2026-09-13T16:52:33.899007",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Bessemer"
     ]
   },
   "preview|seed": {
@@ -153,7 +244,7 @@
     "company_name": "Wonderful",
     "first_seen": "2026-09-06T16:00:40.231312",
     "funding_amount_usd": 550000000,
-    "last_seen": "2026-09-06T16:00:40.231312",
+    "last_seen": "2026-09-13T16:52:33.899007",
     "round_stage": "Series C",
     "vc_firms": [
       "Bessemer"

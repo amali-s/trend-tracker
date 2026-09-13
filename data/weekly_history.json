@@ -419,5 +419,223 @@
       }
     ],
     "total_usd": 550000000
+  },
+  "2026-09-12": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 2,
+        "total_usd": 0,
+        "undisclosed": 2
+      },
+      "AI Infrastructure": {
+        "deals": 1,
+        "total_usd": 3500000000,
+        "undisclosed": 0
+      },
+      "Commerce & Retail": {
+        "deals": 1,
+        "total_usd": 30000000,
+        "undisclosed": 0
+      },
+      "Developer Tools": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Enterprise SaaS": {
+        "deals": 1,
+        "total_usd": 47000000,
+        "undisclosed": 0
+      },
+      "Robotics & Hardware": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Security": {
+        "deals": 2,
+        "total_usd": 345000000,
+        "undisclosed": 0
+      }
+    },
+    "deals": 9,
+    "investments": [
+      {
+        "co_investors": [
+          "Jeff Jordan (advisor)"
+        ],
+        "company_description": "Highstock operates an AI-powered B2B marketplace that connects consumer brands holding excess inventory with vetted global wholesale buyers. It handles matching, pricing, logistics, compliance, payments, and order paperwork so brands can offload overstock discreetly.",
+        "company_name": "Highstock",
+        "company_url": "https://highstock.com",
+        "confidence": "high",
+        "funding_amount_raw": "$30 million",
+        "funding_amount_usd": 30000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Commerce & Retail",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-highstock"
+        ],
+        "sub_sector": "B2B inventory liquidation marketplace",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Cognition is the company behind Devin, an autonomous AI software engineer that runs in its own sandboxed cloud environment, takes a written specification or ticket, and plans, writes, and tests code before returning it for review. It sells primarily to large enterprises for work like code modernizations, migrations, and refactors.",
+        "company_name": "Cognition",
+        "company_url": "https://cognition.ai",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Growth",
+        "sector": "Developer Tools",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-cognition",
+          "https://www.bvp.com/news/devin-s-next-commit"
+        ],
+        "sub_sector": "AI coding agents",
+        "vc_firms": [
+          "a16z",
+          "Bessemer"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Lightfield is an AI-native CRM that automatically builds a customer data model from a company's emails and calls, using a temporal context graph to track deals. It includes agents that handle record updates, follow-ups, handoffs, and reporting, with pricing based on work done rather than per-seat.",
+        "company_name": "Lightfield",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$47M",
+        "funding_amount_usd": 47000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Enterprise SaaS",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-lightfield"
+        ],
+        "sub_sector": "AI-native CRM / sales software",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Antioch builds a simulation platform for physical AI, calibrating high-fidelity simulations to customers' hardware using real-world data and running them at cloud scale. Robotics, drone, and autonomous system teams use it to run thousands of parallel tests and validate models before deployment.",
+        "company_name": "Antioch",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Robotics & Hardware",
+        "source_urls": [
+          "https://greylock.com/blog/introducing-antioch-the-simulation-platform-for-physical-ai"
+        ],
+        "sub_sector": "Simulation and testing infrastructure for robotics and autonomous systems",
+        "vc_firms": [
+          "Greylock"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Mistral is a Paris-based AI company that builds frontier large language models and provides enterprises with full-stack AI infrastructure, including compute, model customization, and agent-based workflows, with an emphasis on data control and sovereignty.",
+        "company_name": "Mistral",
+        "company_url": "https://mistral.ai",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/backing-mistral-from-first-check-to-europes-next-powerhouse"
+        ],
+        "sub_sector": "Foundation models / enterprise AI",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Harvey builds AI software for law firms and in-house legal teams, letting them apply large language models to legal work using their own documents, precedents, and institutional knowledge. Its platform includes domain-specific agents, workflow tools, and controls for data security and auditability.",
+        "company_name": "Harvey",
+        "company_url": "https://www.harvey.ai",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series H",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://lsvp.com/stories/helping-legal-teams-own-their-intelligence-our-series-h-investment-in-harvey"
+        ],
+        "sub_sector": "Legal AI",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Cylake builds an appliance-based security platform that runs inside a customer's own data center, consolidating all security data into a single data lake with security functions delivered as applications on top. It uses machine learning and LLMs running on customer-owned hardware to detect, investigate, and remediate threats for enterprises that can't send data to the cloud.",
+        "company_name": "Cylake",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$245M",
+        "funding_amount_usd": 245000000,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "Security",
+        "source_urls": [
+          "https://lsvp.com/stories/our-investment-in-cylake"
+        ],
+        "sub_sector": "Enterprise security platform / on-premise AI security",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Mistral AI is a French artificial intelligence company that builds large language models, many with open weights, and sells enterprise AI deployment tools and infrastructure. Its products include the Mistral 7B and Mixtral models, Mistral OCR, Voxtral, and European Compute Units for sovereign compute capacity.",
+        "company_name": "Mistral AI",
+        "company_url": "https://mistral.ai",
+        "confidence": "high",
+        "funding_amount_raw": "$3.5B",
+        "funding_amount_usd": 3500000000,
+        "notes": "",
+        "round_stage": "Series D",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://lsvp.com/stories/from-first-check-to-the-global-stage-our-continued-partnership-with-mistral"
+        ],
+        "sub_sector": "Foundation models / open-weight LLMs",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Neo (Neo Security) builds an endpoint security platform designed specifically to discover, monitor, and enforce policy on AI agents and agentic software running on employee devices. It deploys a sensor on the endpoint that observes agent traffic and lets security teams create guardrails using plain language.",
+        "company_name": "Neo",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$100M",
+        "funding_amount_usd": 100000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Security",
+        "source_urls": [
+          "https://www.bvp.com/news/neo-securing-ai-agents-at-the-endpoint"
+        ],
+        "sub_sector": "AI agent / endpoint security",
+        "vc_firms": [
+          "Bessemer"
+        ]
+      }
+    ],
+    "total_usd": 3922000000
   }
 }
