@@ -190,6 +190,16 @@
       "Bessemer"
     ]
   },
+  "nomos|unknown": {
+    "company_name": "Nomos",
+    "first_seen": "2026-09-20T16:42:02.452116",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-20T16:42:02.452116",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Index Ventures"
+    ]
+  },
   "preview|seed": {
     "company_name": "Preview",
     "first_seen": "2026-08-23T13:32:59.137561",
@@ -198,6 +208,16 @@
     "round_stage": "Seed",
     "vc_firms": [
       "Sequoia"
+    ]
+  },
+  "raindrop|series a": {
+    "company_name": "Raindrop",
+    "first_seen": "2026-09-20T16:42:02.452116",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-20T16:42:02.452116",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Lightspeed"
     ]
   },
   "river ai|unknown": {

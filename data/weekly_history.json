@@ -637,5 +637,61 @@
       }
     ],
     "total_usd": 3922000000
+  },
+  "2026-09-19": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Climate & Energy": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 2,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "Nomos is a German AI-native power company that embeds electricity tariffs into home energy hardware, handling procurement, grid operator communication, metering, balancing, billing and payments so manufacturers and installers can offer energy under their own brand. It aims to coordinate millions of household energy assets such as solar panels, batteries and EVs to help stabilize the grid.",
+        "company_name": "Nomos",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "Climate & Energy",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/building-a-new-energy-model-for-europe-our-investment-in-nomos"
+        ],
+        "sub_sector": "Energy retail / distributed energy management software",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Raindrop builds production monitoring and observability software for AI agents. Its product analyzes live agent trajectories to detect semantic failures such as hallucinated answers, tool misuse, and behavior changes after model upgrades, and offers simulations that replay production traffic against proposed changes.",
+        "company_name": "Raindrop",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://lsvp.com/stories/production-monitoring-for-an-increasingly-agentic-world-announcing-raindrops-series-a"
+        ],
+        "sub_sector": "AI agent observability and monitoring",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      }
+    ],
+    "total_usd": 0
   }
 }
