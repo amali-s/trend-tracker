@@ -1,4 +1,15 @@
 {
+  "ando|seed": {
+    "company_name": "Ando",
+    "first_seen": "2026-09-27T17:31:38.096123",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-27T17:31:38.096123",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Index Ventures",
+      "Accel"
+    ]
+  },
   "antioch|series a": {
     "company_name": "Antioch",
     "first_seen": "2026-09-13T16:52:33.899007",
@@ -120,6 +131,16 @@
       "Lightspeed"
     ]
   },
+  "hifi|series a": {
+    "company_name": "HIFI",
+    "first_seen": "2026-09-27T17:31:38.096123",
+    "funding_amount_usd": 37000000,
+    "last_seen": "2026-09-27T17:31:38.096123",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Antler"
+    ]
+  },
   "highstock|series a": {
     "company_name": "Highstock",
     "first_seen": "2026-09-13T16:52:33.899007",
@@ -238,6 +259,16 @@
     "round_stage": "Series I",
     "vc_firms": [
       "Sequoia"
+    ]
+  },
+  "the horowitz andreessen academy|growth": {
+    "company_name": "The Horowitz Andreessen Academy",
+    "first_seen": "2026-09-27T17:31:38.096123",
+    "funding_amount_usd": null,
+    "last_seen": "2026-09-27T17:31:38.096123",
+    "round_stage": "Growth",
+    "vc_firms": [
+      "a16z"
     ]
   },
   "twin1|seed": {

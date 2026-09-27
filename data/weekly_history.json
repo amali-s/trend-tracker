@@ -693,5 +693,93 @@
       }
     ],
     "total_usd": 0
+  },
+  "2026-09-26": {
+    "by_sector": {
+      "Enterprise SaaS": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Fintech": {
+        "deals": 1,
+        "total_usd": 37000000,
+        "undisclosed": 0
+      },
+      "Other": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 3,
+    "investments": [
+      {
+        "co_investors": [
+          "Left Lane Capital",
+          "Tether"
+        ],
+        "company_description": "HIFI is a New York-based company that provides API infrastructure for stablecoin payments and tokenized assets. Its platform combines money movement, compliance and settlement across traditional bank rails and digital assets in a single integration.",
+        "company_name": "HIFI",
+        "company_url": "hifibridge.com",
+        "confidence": "high",
+        "funding_amount_raw": "$37 million",
+        "funding_amount_usd": 37000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Fintech",
+        "source_urls": [
+          "https://www.antler.co/press-releases/antler-doubles-down-on-hifi-in-its-usd-37m-series-a"
+        ],
+        "sub_sector": "Stablecoin payments infrastructure",
+        "vc_firms": [
+          "Antler"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "A private, full-time, in-person school in San Francisco for students coming out of high school, combining courses taught by tech leaders, work co-ops at partner companies, and self-directed personal projects.",
+        "company_name": "The Horowitz Andreessen Academy",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Growth",
+        "sector": "Other",
+        "source_urls": [
+          "https://a16z.com/announcement/incubating-horowitz-andreessen-academy"
+        ],
+        "sub_sector": "Education",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [
+          "Index Ventures",
+          "Emergence Capital"
+        ],
+        "company_description": "Ando is building a team messaging platform designed for both humans and AI agents, where agents act as first-class participants in conversations. It combines an agent execution layer, a rethought human messaging interface, and a memory layer that tags messages with intent and context for retrieval.",
+        "company_name": "Ando",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $10 billion; verify against the source.",
+        "round_stage": "Seed",
+        "sector": "Enterprise SaaS",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/ando-building-the-interface-layer-for-human-and-agent-teams",
+          "https://www.accel.com/news/our-investment-in-ando-modern-messaging-for-teams-and-agents"
+        ],
+        "sub_sector": "Team messaging / collaboration for AI agents",
+        "vc_firms": [
+          "Index Ventures",
+          "Accel"
+        ]
+      }
+    ],
+    "total_usd": 37000000
   }
 }
