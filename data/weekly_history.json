@@ -781,5 +781,148 @@
       }
     ],
     "total_usd": 37000000
+  },
+  "2026-10-03": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 3,
+        "total_usd": 350000000,
+        "undisclosed": 2
+      },
+      "Climate & Energy": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Security": {
+        "deals": 2,
+        "total_usd": 0,
+        "undisclosed": 2
+      }
+    },
+    "deals": 6,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "Conway Research builds personal AI that runs locally on users' own devices, keeping their data private. Its first product, Underdog, is an on-device personal assistant that works even offline.",
+        "company_name": "Conway Research",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-conway-the-creator-of-underdog"
+        ],
+        "sub_sector": "On-device personal AI assistant",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "doxxnet operates a private, software-defined global network for people and AI agents, offering private browsing, peer-to-peer file transfer and communication, encrypted device/agent meshes, and its own naming system and certificate authority. It also provides DNS-level threat blocking and lets agents configure network settings under user policies.",
+        "company_name": "doxxnet",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Security",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-doxxnet"
+        ],
+        "sub_sector": "Private networking / agent security infrastructure",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Armadin builds an autonomous AI security platform that continuously simulates adversary attacks across an organization's external assets, cloud, identity, internal networks, and applications. It produces validated attack chains showing exploitability and blast radius, plus remediation guidance.",
+        "company_name": "Armadin",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series B",
+        "sector": "Security",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-armadin"
+        ],
+        "sub_sector": "Autonomous red teaming / offensive security",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [
+          "Founders Fund",
+          "Eclipse",
+          "Lux",
+          "Diffusion",
+          "General Catalyst"
+        ],
+        "company_description": "Parallax designs and manufactures gas turbines purpose-built for data centers, using additive manufacturing (3D printing) to control its supply chain. Its first product is a 10MW gas turbine intended to supply off-grid power for AI compute.",
+        "company_name": "Parallax",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $100bn; verify against the source.",
+        "round_stage": "Series A",
+        "sector": "Climate & Energy",
+        "source_urls": [
+          "https://greylock.com/blog/introducing-parallax-the-ai-energy-company"
+        ],
+        "sub_sector": "Gas turbines / data center power",
+        "vc_firms": [
+          "Greylock"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "EliseAI builds AI agents that automate administrative and customer-facing workflows for property managers and healthcare providers, handling tasks like leasing inquiries, tours, applications, renewals, maintenance, and collections. Its platform includes a universal property management agent called Apollo.",
+        "company_name": "EliseAI",
+        "company_url": "https://www.eliseai.com",
+        "confidence": "high",
+        "funding_amount_raw": "$350M",
+        "funding_amount_usd": 350000000,
+        "notes": "",
+        "round_stage": "Growth",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.bvp.com/news/eliseai-deepens-vertical-operations-in-housing-and-healthcare"
+        ],
+        "sub_sector": "Vertical AI for property management and healthcare operations",
+        "vc_firms": [
+          "Bessemer"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Modus is an AI-native accounting firm that uses AI agents to perform financial statement audit work. Its research team, Modus Labs, published Financial Audit Bench, an open-source benchmark measuring how well AI models complete audit procedures.",
+        "company_name": "Modus",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://lsvp.com/stories/introducing-financial-audit-bench"
+        ],
+        "sub_sector": "Audit and accounting automation",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      }
+    ],
+    "total_usd": 350000000
   }
 }
