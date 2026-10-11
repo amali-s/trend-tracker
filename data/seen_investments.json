@@ -151,6 +151,16 @@
       "Contrary"
     ]
   },
+  "general medicine|series b": {
+    "company_name": "General Medicine",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": 120000000,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Series B",
+    "vc_firms": [
+      "a16z"
+    ]
+  },
   "gimlet labs|growth": {
     "company_name": "Gimlet Labs",
     "first_seen": "2026-09-06T16:00:40.231312",
@@ -189,6 +199,16 @@
     "round_stage": "Series A",
     "vc_firms": [
       "a16z"
+    ]
+  },
+  "hone|series b": {
+    "company_name": "Hone",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Series B",
+    "vc_firms": [
+      "Index Ventures"
     ]
   },
   "keenable|seed": {
@@ -271,6 +291,36 @@
       "Index Ventures"
     ]
   },
+  "oratomic|series b": {
+    "company_name": "Oratomic",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Series B",
+    "vc_firms": [
+      "Index Ventures"
+    ]
+  },
+  "oratomic|unknown": {
+    "company_name": "Oratomic",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "General Catalyst"
+    ]
+  },
+  "paper|series a": {
+    "company_name": "Paper",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Designer Fund"
+    ]
+  },
   "parallax|series a": {
     "company_name": "Parallax",
     "first_seen": "2026-10-04T17:19:21.234089",
@@ -279,6 +329,16 @@
     "round_stage": "Series A",
     "vc_firms": [
       "Greylock"
+    ]
+  },
+  "preference model|growth": {
+    "company_name": "Preference Model",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Growth",
+    "vc_firms": [
+      "a16z"
     ]
   },
   "preview|seed": {
@@ -321,6 +381,16 @@
       "Sequoia"
     ]
   },
+  "spiko|series b": {
+    "company_name": "Spiko",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": 90000000,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Series B",
+    "vc_firms": [
+      "Index Ventures"
+    ]
+  },
   "the horowitz andreessen academy|growth": {
     "company_name": "The Horowitz Andreessen Academy",
     "first_seen": "2026-09-27T17:31:38.096123",
@@ -339,6 +409,16 @@
     "round_stage": "Seed",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "typesafe ai|growth": {
+    "company_name": "TypeSafe AI",
+    "first_seen": "2026-10-11T17:56:04.306846",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-11T17:56:04.306846",
+    "round_stage": "Growth",
+    "vc_firms": [
+      "a16z"
     ]
   },
   "vals ai|unknown": {

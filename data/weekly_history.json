@@ -924,5 +924,209 @@
       }
     ],
     "total_usd": 350000000
+  },
+  "2026-10-10": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "AI Infrastructure": {
+        "deals": 2,
+        "total_usd": 0,
+        "undisclosed": 2
+      },
+      "Developer Tools": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Fintech": {
+        "deals": 1,
+        "total_usd": 90000000,
+        "undisclosed": 0
+      },
+      "Healthcare & Bio": {
+        "deals": 1,
+        "total_usd": 120000000,
+        "undisclosed": 0
+      },
+      "Other": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Robotics & Hardware": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 8,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "TypeSafe AI builds Jev, a small, fast language model that returns typed values directly to code rather than text, so developers can embed AI decisions natively in software. The company positions Jev as a 'System One' model optimized for cheap, low-latency classification and decision tasks.",
+        "company_name": "TypeSafe AI",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $1; verify against the source.",
+        "round_stage": "Growth",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-typesafe-ai"
+        ],
+        "sub_sector": "Foundation models for developers",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Preference Model builds reinforcement learning environments for frontier AI labs, focused on AI research and machine learning engineering tasks. It also develops tooling that hardens these environments against reward hacking and has open-sourced its production framework, Karotte.",
+        "company_name": "Preference Model",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Growth",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-preference-model"
+        ],
+        "sub_sector": "Reinforcement learning environments / model training data",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "General Medicine is a healthcare company that combines its own medical group with a marketplace of outside clinicians, letting patients access their medical history, clinical guidance, transparent pricing, and a catalog of over 2,900 medical products and services such as medications, labs, imaging, and specialist consultations in one place. It also offers the same infrastructure to enterprise customers like health systems, payors, and pharmacies.",
+        "company_name": "General Medicine",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$120M",
+        "funding_amount_usd": 120000000,
+        "notes": "",
+        "round_stage": "Series B",
+        "sector": "Healthcare & Bio",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-general-medicine"
+        ],
+        "sub_sector": "Digital health / care navigation marketplace",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Oratomic is a quantum computing company building fault-tolerant quantum computers using reconfigurable atomic arrays, where neutral atoms are trapped and moved with laser beams and entangled with lasers. The approach aims to simplify error correction and reduce the number of physical qubits needed to run algorithms like Shor's.",
+        "company_name": "Oratomic",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "Robotics & Hardware",
+        "source_urls": [
+          "https://www.generalcatalyst.com/stories/building-the-future-of-quantum"
+        ],
+        "sub_sector": "Quantum computing",
+        "vc_firms": [
+          "General Catalyst"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Paper is a design tool where designers work on a live HTML and CSS canvas instead of static mockups, so engineers and AI agents can edit designs directly in code. It is used daily by design teams at companies such as Ramp, Vercel, Resend, and Lovable.",
+        "company_name": "Paper",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Developer Tools",
+        "source_urls": [
+          "https://designerfund.com/blog/designer-founders-stephen-haney"
+        ],
+        "sub_sector": "Design tools / AI-native design software",
+        "vc_firms": [
+          "Designer Fund"
+        ]
+      },
+      {
+        "co_investors": [
+          "Benchmark"
+        ],
+        "company_description": "Hone builds AI agents, called Engines, that take ownership of entire business roles and outcomes rather than single prompted tasks. An Engine explores a company's systems, studies past work, writes its own skills and tools, and improves from corrections shared across a team.",
+        "company_name": "Hone",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $90M; verify against the source.",
+        "round_stage": "Series B",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/ai-that-owns-business-outcomes-our-investment-in-hone"
+        ],
+        "sub_sector": "Autonomous enterprise agents",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Oratomic is a quantum computing company founded in March 2026 by Caltech and Harvard physicists building a fault-tolerant quantum computer using neutral atoms held and moved by optical tweezers. Its approach uses high-rate quantum error-correcting codes aiming to make a useful machine with roughly 10,000 qubits.",
+        "company_name": "Oratomic",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $90M; verify against the source.",
+        "round_stage": "Series B",
+        "sector": "Other",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/making-quantum-computing-real-our-investment-in-oratomic"
+        ],
+        "sub_sector": "Quantum computing",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      },
+      {
+        "co_investors": [
+          "New Enterprise Associates (NEA)",
+          "Speedinvest",
+          "White Star Capital",
+          "Nik Storonski",
+          "founders of Qonto",
+          "Axel Weber"
+        ],
+        "company_description": "Spiko issues regulated, tokenized money market funds that let businesses and individuals earn yield on cash holdings with instant, around-the-clock liquidity. Clients access the funds through Spiko's app or embed them in their own products via API.",
+        "company_name": "Spiko",
+        "company_url": "https://www.spiko.io",
+        "confidence": "high",
+        "funding_amount_raw": "$90 million",
+        "funding_amount_usd": 90000000,
+        "notes": "",
+        "round_stage": "Series B",
+        "sector": "Fintech",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/spiko-raises-90m-series-b-to-make-yield-universally-accessible"
+        ],
+        "sub_sector": "Tokenized money market funds / treasury management",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      }
+    ],
+    "total_usd": 210000000
   }
 }
