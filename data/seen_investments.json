@@ -1,4 +1,14 @@
 {
+  "air|series a": {
+    "company_name": "Air",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
   "ando|seed": {
     "company_name": "Ando",
     "first_seen": "2026-09-27T17:31:38.096123",
@@ -50,6 +60,16 @@
       "Sequoia"
     ]
   },
+  "catalyst|seed": {
+    "company_name": "Catalyst",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
   "cognition|growth": {
     "company_name": "Cognition",
     "first_seen": "2026-09-13T16:52:33.899007",
@@ -91,6 +111,16 @@
       "Lightspeed"
     ]
   },
+  "cymphony|series a": {
+    "company_name": "Cymphony",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
   "doxxnet|series a": {
     "company_name": "doxxnet",
     "first_seen": "2026-10-04T17:19:21.234089",
@@ -109,6 +139,16 @@
     "round_stage": "Growth",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "empirik|unknown": {
+    "company_name": "Empirik",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": 21000000,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Sequoia"
     ]
   },
   "etched|series c": {
@@ -139,6 +179,16 @@
     "round_stage": "Series B",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "form energy|series g": {
+    "company_name": "Form Energy",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": 100000000,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series G",
+    "vc_firms": [
+      "Sequoia"
     ]
   },
   "fsh technologies|series a": {
@@ -241,6 +291,16 @@
       "Antler"
     ]
   },
+  "mecka ai|unknown": {
+    "company_name": "Mecka AI",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
   "mistral ai|series d": {
     "company_name": "Mistral AI",
     "first_seen": "2026-09-13T16:52:33.899007",
@@ -259,6 +319,16 @@
     "round_stage": "Unknown",
     "vc_firms": [
       "Index Ventures"
+    ]
+  },
+  "modal|series d": {
+    "company_name": "Modal",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": 750000000,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series D",
+    "vc_firms": [
+      "Accel"
     ]
   },
   "modus|unknown": {
@@ -309,6 +379,16 @@
     "round_stage": "Unknown",
     "vc_firms": [
       "General Catalyst"
+    ]
+  },
+  "origin|series a": {
+    "company_name": "Origin",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Accel"
     ]
   },
   "paper|series a": {
@@ -381,6 +461,26 @@
       "Sequoia"
     ]
   },
+  "sail|unknown": {
+    "company_name": "Sail",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Unknown",
+    "vc_firms": [
+      "Sequoia"
+    ]
+  },
+  "scuba|pre-seed": {
+    "company_name": "Scuba",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Pre-Seed",
+    "vc_firms": [
+      "Accel"
+    ]
+  },
   "spiko|series b": {
     "company_name": "Spiko",
     "first_seen": "2026-10-11T17:56:04.306846",
@@ -439,6 +539,26 @@
     "round_stage": "Series C",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "zaria|seed": {
+    "company_name": "Zaria",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": 5200000,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Seed",
+    "vc_firms": [
+      "Lightspeed"
+    ]
+  },
+  "zenzap|series a": {
+    "company_name": "Zenzap",
+    "first_seen": "2026-10-18T16:23:17.745060",
+    "funding_amount_usd": 44000000,
+    "last_seen": "2026-10-18T16:23:17.745060",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Lightspeed"
     ]
   }
 }

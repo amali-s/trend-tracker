@@ -1128,5 +1128,288 @@
       }
     ],
     "total_usd": 210000000
+  },
+  "2026-10-17": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 2,
+        "total_usd": 44000000,
+        "undisclosed": 1
+      },
+      "AI Infrastructure": {
+        "deals": 2,
+        "total_usd": 750000000,
+        "undisclosed": 1
+      },
+      "Climate & Energy": {
+        "deals": 1,
+        "total_usd": 100000000,
+        "undisclosed": 0
+      },
+      "Developer Tools": {
+        "deals": 1,
+        "total_usd": 21000000,
+        "undisclosed": 0
+      },
+      "Fintech": {
+        "deals": 2,
+        "total_usd": 5200000,
+        "undisclosed": 1
+      },
+      "Robotics & Hardware": {
+        "deals": 2,
+        "total_usd": 0,
+        "undisclosed": 2
+      },
+      "Security": {
+        "deals": 2,
+        "total_usd": 0,
+        "undisclosed": 2
+      }
+    },
+    "deals": 12,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "Catalyst is a platform where users describe an investment thesis in plain language and AI agents gather market signals, find the best instruments and venues, and help backtest and deploy trading strategies with limits and safety controls. It aims to make sophisticated trading strategies accessible to retail investors.",
+        "company_name": "Catalyst",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "Fintech",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-catalyst-turning-ideas-into-trades"
+        ],
+        "sub_sector": "AI agents for retail investing and trading",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [
+          "NVIDIA",
+          "Samsung",
+          "Microsoft",
+          "Qualcomm",
+          "Tony Xu",
+          "Frank Slootman",
+          "Milan Kovac",
+          "Christopher Payne",
+          "Jonathan Chadwick"
+        ],
+        "company_description": "Mecka builds the data and deployment infrastructure for physical AI and robotics, designing wearables and hardware to capture real-world human movement and sensory data, processing it into training-ready datasets, and running reinforcement learning and robot deployments for AI labs and enterprises.",
+        "company_name": "Mecka AI",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "Robotics & Hardware",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-mecka"
+        ],
+        "sub_sector": "Robotics training data and deployment infrastructure",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Sail builds an inference stack and runtime designed for AI agents that run for hours, days or weeks. Its platform distributes model inference across varied compute providers to cut costs, and offers 'Sailboxes', long-lived scalable workspaces where agents can run continuously.",
+        "company_name": "Sail",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-sail-agents-without-limits"
+        ],
+        "sub_sector": "Inference and agent runtime infrastructure",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Cymphony builds a security and governance layer that continuously maps which employees and AI agents can access which enterprise systems and data. It also recommends and automates remediation when access is inappropriate.",
+        "company_name": "Cymphony",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Security",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-cymphony-security-unlocks-adoption"
+        ],
+        "sub_sector": "AI agent governance and identity/data security",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Air is an Israeli cybersecurity company that secures the software supply chain for AI agents, vetting the skills, plugins, MCP servers and sub-agents that agents load at runtime. Its products scan add-ons before installation, monitor agent behavior in production, and manage policy and revocation across fleets of agents.",
+        "company_name": "Air",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Security",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-air-securing-the-ai-supply-chain"
+        ],
+        "sub_sector": "AI agent security / software supply chain security",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Empirik builds a real-time graph of an enterprise's infrastructure changes across clouds, Kubernetes, identity providers, CI/CD and SaaS systems, so teams can see what changed, who changed it, and whether it caused an incident. It uses that map to power AI agents that can plan, assess risk of, and act on infrastructure changes.",
+        "company_name": "Empirik",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$21M",
+        "funding_amount_usd": 21000000,
+        "notes": "",
+        "round_stage": "Unknown",
+        "sector": "Developer Tools",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-empirik-building-the-autonomous-infrastructure-engineer"
+        ],
+        "sub_sector": "Infrastructure observability / agentic DevOps",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Form Energy develops and manufactures iron-air batteries designed to store electricity for multiple days, far longer than lithium-ion grid storage. It operates a high-volume battery factory on a former steel mill site in West Virginia and sells long-duration storage systems to utilities and large power buyers.",
+        "company_name": "Form Energy",
+        "company_url": "https://formenergy.com",
+        "confidence": "high",
+        "funding_amount_raw": "$100M (Sequoia's investment)",
+        "funding_amount_usd": 100000000,
+        "notes": "",
+        "round_stage": "Series G",
+        "sector": "Climate & Energy",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-form-energy"
+        ],
+        "sub_sector": "Long-duration grid energy storage / battery manufacturing",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Origin builds general-purpose construction robots combining hardware and AI software, trained on synthetic and real-world construction site data. Its robots use power tools to perform tasks like sanding and painting from high-level instructions on live job sites.",
+        "company_name": "Origin",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Robotics & Hardware",
+        "source_urls": [
+          "https://www.accel.com/news/our-investment-in-origin-bringing-physical-ai-to-the-built-world"
+        ],
+        "sub_sector": "Construction robotics / physical AI",
+        "vc_firms": [
+          "Accel"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Modal runs a serverless compute platform that lets developers execute Python code on cloud CPUs and GPUs without managing infrastructure. It is used for AI and data workloads such as serving LLMs, fine-tuning models, generating embeddings, and running sandboxed agent code.",
+        "company_name": "Modal",
+        "company_url": "https://modal.com",
+        "confidence": "high",
+        "funding_amount_raw": "$750mm",
+        "funding_amount_usd": 750000000,
+        "notes": "",
+        "round_stage": "Series D",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.accel.com/news/our-investment-in-modal"
+        ],
+        "sub_sector": "Serverless GPU compute / developer platform",
+        "vc_firms": [
+          "Accel"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Scuba is a tool that captures a team's decisions, conversations, and documents in one click and makes that context available to AI agents. Early users rely on it for company and product strategy, tracking customer feedback, and reducing meetings.",
+        "company_name": "Scuba",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Pre-Seed",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.accel.com/news/ai-that-knows-what-your-team-knows"
+        ],
+        "sub_sector": "Knowledge management / team context for AI agents",
+        "vc_firms": [
+          "Accel"
+        ]
+      },
+      {
+        "co_investors": [
+          "Bessemer Venture Partners"
+        ],
+        "company_description": "Zenzap is a business messaging platform that works like a consumer chat app but with centralized company control over users, data and policies. It lets employees create no-code AI agents that sit in group chats and take actions across connected business tools like QuickBooks, HubSpot, Procore and Deputy.",
+        "company_name": "Zenzap",
+        "company_url": "https://zenzap.com",
+        "confidence": "high",
+        "funding_amount_raw": "$44M",
+        "funding_amount_usd": 44000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://lsvp.com/stories/ai-for-the-real-economy-our-series-a-in-zenzap"
+        ],
+        "sub_sector": "Workplace messaging and AI agents for SMBs",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Zaria provides loan servicing, backup servicing, collateral management, and agency services on a single real-time platform for both traditional and crypto-backed lending. Its verification agent checks loan documents against originator-reported data and flags mismatches with an audit trail.",
+        "company_name": "Zaria",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$5.2M",
+        "funding_amount_usd": 5200000,
+        "notes": "",
+        "round_stage": "Seed",
+        "sector": "Fintech",
+        "source_urls": [
+          "https://lsvp.com/stories/twelve-systems-one-company-founders-from-both-sides-of-the-table"
+        ],
+        "sub_sector": "Loan servicing and securitization infrastructure",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      }
+    ],
+    "total_usd": 920200000
   }
 }
