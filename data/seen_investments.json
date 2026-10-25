@@ -30,6 +30,16 @@
       "Greylock"
     ]
   },
+  "arda|series a": {
+    "company_name": "Arda",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Accel"
+    ]
+  },
   "armadin|series b": {
     "company_name": "Armadin",
     "first_seen": "2026-10-04T17:19:21.234089",
@@ -48,6 +58,16 @@
     "round_stage": "Seed",
     "vc_firms": [
       "Accel"
+    ]
+  },
+  "blacksmith|series c": {
+    "company_name": "Blacksmith",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series C",
+    "vc_firms": [
+      "Sequoia"
     ]
   },
   "bunkerhill health|seed": {
@@ -131,6 +151,16 @@
       "a16z"
     ]
   },
+  "eka robotics|series a": {
+    "company_name": "Eka Robotics",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "a16z"
+    ]
+  },
   "eliseai|growth": {
     "company_name": "EliseAI",
     "first_seen": "2026-10-04T17:19:21.234089",
@@ -179,6 +209,16 @@
     "round_stage": "Series B",
     "vc_firms": [
       "Bessemer"
+    ]
+  },
+  "flapping airplanes|series a": {
+    "company_name": "Flapping Airplanes",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": 1000000000,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Index Ventures"
     ]
   },
   "form energy|series g": {
@@ -529,6 +569,26 @@
     "round_stage": "Unknown",
     "vc_firms": [
       "a16z"
+    ]
+  },
+  "warp|series a": {
+    "company_name": "Warp",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series A",
+    "vc_firms": [
+      "Lightspeed"
+    ]
+  },
+  "whop|series d": {
+    "company_name": "Whop",
+    "first_seen": "2026-10-25T16:58:45.929153",
+    "funding_amount_usd": null,
+    "last_seen": "2026-10-25T16:58:45.929153",
+    "round_stage": "Series D",
+    "vc_firms": [
+      "Sequoia"
     ]
   },
   "wonderful|series c": {

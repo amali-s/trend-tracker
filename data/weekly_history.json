@@ -1411,5 +1411,159 @@
       }
     ],
     "total_usd": 920200000
+  },
+  "2026-10-24": {
+    "by_sector": {
+      "AI Applications": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "AI Infrastructure": {
+        "deals": 1,
+        "total_usd": 1000000000,
+        "undisclosed": 0
+      },
+      "Commerce & Retail": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Developer Tools": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Healthcare & Bio": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      },
+      "Robotics & Hardware": {
+        "deals": 1,
+        "total_usd": 0,
+        "undisclosed": 1
+      }
+    },
+    "deals": 6,
+    "investments": [
+      {
+        "co_investors": [],
+        "company_description": "Blacksmith provides infrastructure that speeds up continuous integration (CI), the automated builds and tests that validate code before it ships. Developers add a one-line change to their workflow file and their CI jobs run roughly twice as fast at lower cost.",
+        "company_name": "Blacksmith",
+        "company_url": "https://www.blacksmith.sh",
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $1M; verify against the source.",
+        "round_stage": "Series C",
+        "sector": "Developer Tools",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-blacksmith"
+        ],
+        "sub_sector": "CI/CD infrastructure",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [
+          "Shopify Ventures"
+        ],
+        "company_description": "Whop is an online platform where people can start and run digital businesses, bundling payments, financial management, product or service delivery, and marketing in one place. It also serves as a marketplace where creators and entrepreneurs sell products, services and memberships.",
+        "company_name": "Whop",
+        "company_url": "https://whop.com",
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series D",
+        "sector": "Commerce & Retail",
+        "source_urls": [
+          "https://www.sequoiacap.com/article/partnering-with-whop"
+        ],
+        "sub_sector": "Creator economy / e-commerce platform",
+        "vc_firms": [
+          "Sequoia"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Eka Robotics builds dexterous robotic manipulation systems that combine vision with force feedback from robotic hands, using a Vision-Force-Action model. Its manipulation policies are trained via reinforcement learning in physics simulation and then deployed on real hardware for tasks like bin picking and connector insertion.",
+        "company_name": "Eka Robotics",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "Robotics & Hardware",
+        "source_urls": [
+          "https://a16z.com/announcement/investing-in-eka-robotics"
+        ],
+        "sub_sector": "Dexterous manipulation / industrial robotics",
+        "vc_firms": [
+          "a16z"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Flapping Airplanes is a San Francisco AI company building more efficient AI systems by working across the full stack, from GPU kernels through pre-training, post-training, and inference. Its 'megakernels' run an entire program on a GPU as a single kernel to reduce wasted time between steps.",
+        "company_name": "Flapping Airplanes",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "$1B",
+        "funding_amount_usd": 1000000000,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "AI Infrastructure",
+        "source_urls": [
+          "https://www.indexventures.com/perspectives/toward-more-efficient-ai-leading-flapping-airplanes-1b-series-a"
+        ],
+        "sub_sector": "Model efficiency / GPU kernels",
+        "vc_firms": [
+          "Index Ventures"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Arda builds AI software for manufacturing operations, helping hardware companies push design changes onto the factory floor faster. Its technology is used by Anduril Industries as part of the ArsenalOS manufacturing software.",
+        "company_name": "Arda",
+        "company_url": null,
+        "confidence": "high",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "",
+        "round_stage": "Series A",
+        "sector": "AI Applications",
+        "source_urls": [
+          "https://www.accel.com/news/our-investment-in-arda"
+        ],
+        "sub_sector": "Manufacturing / industrial software",
+        "vc_firms": [
+          "Accel"
+        ]
+      },
+      {
+        "co_investors": [],
+        "company_description": "Warp (Warp Sciences) operates AI-driven robotic laboratories in the US that perform drug discovery chemistry, starting with lead optimization services for pharmaceutical and biotech companies. It captures data from every experiment, including failures, to train models that predict how to make compounds and which to make next.",
+        "company_name": "Warp",
+        "company_url": null,
+        "confidence": "medium",
+        "funding_amount_raw": "Undisclosed",
+        "funding_amount_usd": null,
+        "notes": "Reported undisclosed, but the post contains $2.23B; verify against the source.",
+        "round_stage": "Series A",
+        "sector": "Healthcare & Bio",
+        "source_urls": [
+          "https://lsvp.com/stories/why-were-backing-warp"
+        ],
+        "sub_sector": "AI-driven robotic labs for drug discovery chemistry",
+        "vc_firms": [
+          "Lightspeed"
+        ]
+      }
+    ],
+    "total_usd": 1000000000
   }
 }
